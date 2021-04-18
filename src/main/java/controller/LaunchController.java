@@ -16,6 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+/**
+ * The controller class of the launch (menu) screen of the game.
+ */
+
 @Slf4j
 public class LaunchController {
     @FXML
@@ -40,24 +44,28 @@ public class LaunchController {
     }
 
     public void startAction(ActionEvent actionEvent) throws IOException {
-
-        if (player1TextField.getText().isEmpty()) {
-            errorLabel.setText("Please enter a name for Player1!");
+        if(player1TextField.getText().equals(player2TextField.getText())){
+            errorLabel.setText("The two players' name cannot be the same!");
         }
-        else if(player2TextField.getText().isEmpty()){
-            errorLabel.setText("Please enter a name for Player2!");
-        }
-        else {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/game.fxml"));
-            Parent root = fxmlLoader.load();
-            //fxmlLoader.<GameController>getController().initializeData(player1TextField.getText(), player2TextField.getText());
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setX((Screen.getPrimary().getBounds().getWidth()/2)-400);
-            stage.setY(0);
-            stage.show();
-            log.info("Player1's name is set to {}, Player2's name is set to {}, loading game scene.",
-                    player1TextField.getText(), player2TextField.getText());
+        else{
+            if (player1TextField.getText().isEmpty()) {
+                errorLabel.setText("Please enter a name for Player1!");
+            }
+            else if(player2TextField.getText().isEmpty()){
+                errorLabel.setText("Please enter a name for Player2!");
+            }
+            else {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/game.fxml"));
+                Parent root = fxmlLoader.load();
+                fxmlLoader.<GameController>getController().initializeData(player1TextField.getText(), player2TextField.getText());
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setX((Screen.getPrimary().getBounds().getWidth()/2)-400);
+                stage.setY(0);
+                stage.show();
+                log.info("Player1's name is set to {}, Player2's name is set to {}, loading game scene.",
+                        player1TextField.getText(), player2TextField.getText());
+            }
         }
     }
 }
