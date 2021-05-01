@@ -13,8 +13,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import tictactoe.results.GameResult;
+import tictactoe.results.GameResultDao;
+import tictactoe.state.TicTacToeState;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,25 +29,25 @@ import java.util.Optional;
 @Slf4j
 public class GameController {
 
-
+    private TicTacToeState ticTacToeState;
     private String player1Name;
     private String player2Name;
     private String winner;
-    private int fromIndex;
     private boolean gameGoes = true;
-    private List<Integer> whereCanMove = new ArrayList<>();
-    //private TicTacToeState ticTacToeState;
+    //private List<Integer> whereCanMove = new ArrayList<>();
+    private GameResultDao gameResultDao;
+    private boolean turn = true; // true for 'O', false for 'X'
+    private short counter = 0;
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
     @FXML
     private List<ImageView> boardElements;
-
-    //private GameResultDao gameResultDao;
 
     @FXML
     private ImageView background;
 
     @FXML
-    private ImageView gameboard;
+    private GridPane board;
 
     @FXML
     private Label player1Label;
@@ -51,23 +56,41 @@ public class GameController {
     private Label player2Label;
 
     @FXML
-    private Button exitButton;
+    private Button resetButton;
 
-
-    private boolean turn = true; // true for 'O', false for 'X'
-    private short counter = 0;
-    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-
+    /**
+     * Saves the both players' names in {@code player1Name} and {@code player2Name}.
+     *
+     * @param player1 is the name of player 1
+     * @param player2 is the name of player 2
+     */
     public void initializeData(String player1, String player2) {
         this.player1Name = player1;
         this.player2Name = player2;
+        player1Label.setText(this.player1Name + "'s turn");
     }
 
     /**
-     * Draws the game board.
+     * Draws the main game grid.
      */
-    private void drawGameboard() {
-        gameboard.setImage(new Image(getClass().getResource("/pictures/grid.png").toExternalForm()));
+    private void drawGamegrid() {
+        background.setImage(new Image(getClass().getResource("/pictures/grid.png").toExternalForm()));
+    }
+
+    /**
+     * Initializes the game fxml file.
+     */
+    @FXML
+    public void initialize() {
+
+        //gameResultDao = GameResultDao.getInstance();
+        //state = new TicTacToeState();
+
+        for (ImageView boardElement : boardElements) {
+            boardElement.setDisable(false);
+            boardElement.setImage(new Image("/pictures/nothing.png"));
+            boardElement.setAccessibleText("N");
+        }
     }
 
     @FXML
@@ -120,7 +143,6 @@ public class GameController {
         }
         turn = !turn;
     }
-
     private boolean checkIfThereIsAWinner() {
         // jatektabla lekepezese:
         // 0 1 2
@@ -153,14 +175,6 @@ public class GameController {
         return true;
     }
 
-    public void initialize() {
-
-        for (ImageView boardElement : boardElements) {
-            boardElement.setDisable(false);
-            boardElement.setImage(new Image("/pictures/nothing.png"));
-            boardElement.setAccessibleText("N");
-        }
-    }
 
     public void disableFreeFields() {
         for (ImageView boardElement : boardElements) {
@@ -173,10 +187,8 @@ public class GameController {
     }
 
    public void resetGame(ActionEvent actionEvent) throws IOException{
-		/**//*gameState = new RollingCubesState();
-		stepCount = 0;
-		solvedLabel.setText("");
-		drawGameState();
+		/**//*gameState = new new TicTacToeState();
+		drawGamegrid();
 		beginGame = Instant.now();
 		log.info("Game reset.");*//*
 */
@@ -186,4 +198,33 @@ public class GameController {
         stage.show();
         log.info("Game reset.");
     }
+
+  /*  private GameResult getResult() {
+
+        log.info("Creating game result.");
+        return GameResult.builder()
+                .player1(player1Name)
+                .player2(player2Name)
+                .winner(winner)
+                .build();
+    }
+
+    *//**
+     * Loads the top list when the player clicks on the exit button.
+     *
+     * @param actionEvent a click by the player
+     * @throws IOException if {@code fxmlLoader} can't load fxml file
+     *//*
+    public void finishGame(ActionEvent actionEvent) throws IOException {
+        gameResultDao.persist(getResult());
+
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/toplist.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setX((Screen.getPrimary().getBounds().getWidth()/2)-350);
+        stage.setY(0);
+        stage.show();
+        log.info("Finished game, loading Top List scene.");
+    }*/
+
 }
