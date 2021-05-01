@@ -29,14 +29,14 @@ import java.util.Optional;
 @Slf4j
 public class GameController {
 
+    public String player1Name;
+    public String player2Name;
     private TicTacToeState ticTacToeState;
-    private String player1Name;
-    private String player2Name;
     private String winner;
     private boolean gameGoes = true;
     //private List<Integer> whereCanMove = new ArrayList<>();
     private GameResultDao gameResultDao;
-    private boolean turn = true; // true for 'O', false for 'X'
+    private boolean oTurn = true;
     private short counter = 0;
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
@@ -50,10 +50,7 @@ public class GameController {
     private GridPane board;
 
     @FXML
-    private Label player1Label;
-
-    @FXML
-    private Label player2Label;
+    private Label currentTurnLabel;
 
     @FXML
     private Button resetButton;
@@ -67,7 +64,7 @@ public class GameController {
     public void initializeData(String player1, String player2) {
         this.player1Name = player1;
         this.player2Name = player2;
-        player1Label.setText(this.player1Name + "'s turn");
+        currentTurnLabel.setText(this.player1Name);
     }
 
     /**
@@ -94,21 +91,24 @@ public class GameController {
     }
 
     @FXML
-    protected void imageClicked(Event e) throws IOException {
+    public void imageClicked(Event e) throws IOException {
         ImageView clickedElement = (ImageView) e.getSource();
-        if (turn) {
+        if (oTurn) {
             clickedElement.setAccessibleText("O");
             clickedElement.setImage(new Image("/pictures/o.png"));
+            currentTurnLabel.setText(this.player2Name);
+
         } else {
             clickedElement.setAccessibleText("X");
             clickedElement.setImage(new Image("/pictures/x.png"));
+            currentTurnLabel.setText(this.player1Name);
         }
         counter++;
         clickedElement.setDisable(true);
 
         if (this.checkIfThereIsAWinner()) {
             this.disableFreeFields();
-            char winner = turn ? 'O' : 'X';
+            String winner = oTurn ? player1Name : player2Name;
             alert.setTitle("We have a winner!");
             alert.setHeaderText(null);
             alert.setContentText("Winner is " + winner + ". Do you want to play once again?");
@@ -141,7 +141,7 @@ public class GameController {
             }
             counter = 0;
         }
-        turn = !turn;
+        oTurn = !oTurn;
     }
     private boolean checkIfThereIsAWinner() {
         // jatektabla lekepezese:
@@ -187,11 +187,11 @@ public class GameController {
     }
 
    public void resetGame(ActionEvent actionEvent) throws IOException{
-		/**//*gameState = new new TicTacToeState();
+		/*gameState = new new TicTacToeState();
 		drawGamegrid();
 		beginGame = Instant.now();
-		log.info("Game reset.");*//*
-*/
+        */
+
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/game.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
