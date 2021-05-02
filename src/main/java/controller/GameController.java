@@ -22,6 +22,8 @@ import tictactoe.results.GameResultDao;
 import tictactoe.state.TicTacToeState;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +40,7 @@ public class GameController {
     private GameResultDao gameResultDao;
     private boolean oTurn = true;
     private short counter = 0;
+    private Instant beginGame;
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
     @FXML
@@ -79,6 +82,7 @@ public class GameController {
      */
     @FXML
     public void initialize() {
+        beginGame = Instant.now();
 
         //gameResultDao = GameResultDao.getInstance();
         //state = new TicTacToeState();
@@ -199,32 +203,35 @@ public class GameController {
         log.info("Game reset.");
     }
 
-  /*  private GameResult getResult() {
+  private GameResult getResult() {
 
         log.info("Creating game result.");
         return GameResult.builder()
                 .player1(player1Name)
                 .player2(player2Name)
                 .winner(winner)
+                .duration(Duration.between(beginGame, Instant.now()))
                 .build();
     }
 
-    *//**
+
+
+    /*
      * Loads the top list when the player clicks on the exit button.
      *
      * @param actionEvent a click by the player
      * @throws IOException if {@code fxmlLoader} can't load fxml file
-     *//*
+     */
     public void finishGame(ActionEvent actionEvent) throws IOException {
-        gameResultDao.persist(getResult());
+        //gameResultDao.persist(getResult());
 
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/toplist.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/toplist.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        //stage.setScene(new Scene(root));
         stage.setX((Screen.getPrimary().getBounds().getWidth()/2)-350);
         stage.setY(0);
         stage.show();
         log.info("Finished game, loading Top List scene.");
-    }*/
+    }
 
 }
