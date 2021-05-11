@@ -22,6 +22,7 @@ import java.io.IOException;
 
 @Slf4j
 public class LaunchController {
+
     @FXML
     private TextField player1TextField;
 
@@ -32,19 +33,12 @@ public class LaunchController {
     private Label errorLabel;
 
     @FXML
-    private Image gameLogo;
-
-    @FXML
     private Button closeButton;
 
-    @FXML
-    private void closeButtonAction(){
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
-    }
 
+    @FXML
     public void startAction(ActionEvent actionEvent) throws IOException {
-        if(player1TextField.getText().equals(player2TextField.getText())){
+        if(player1TextField.getText().equalsIgnoreCase(player2TextField.getText())){
             errorLabel.setText("The two players' name cannot be the same!");
         }
         else{
@@ -65,7 +59,15 @@ public class LaunchController {
                 stage.show();
                 log.info("Player1's name is set to {}, Player2's name is set to {}, loading game scene.",
                         player1TextField.getText(), player2TextField.getText());
+
             }
         }
     }
+
+    @FXML
+    private void closeButtonAction(){
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
+    }
+
 }

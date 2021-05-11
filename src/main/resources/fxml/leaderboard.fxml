@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TopTenController">
+   <children>
+      <TableView fx:id="leaderboardTable" editable="true" layoutX="25.0" layoutY="74.0" prefHeight="550.0" prefWidth="650.0">
+        <columns>
+          <TableColumn fx:id="player1" prefWidth="111.0" text="Player 1" />
+            <TableColumn fx:id="player2" prefWidth="115.0" text="Player 2" />
+          <TableColumn fx:id="winner" prefWidth="97.0" text="Winner" />
+            <TableColumn fx:id="steps" prefWidth="71.0" text="Steps" />
+            <TableColumn fx:id="duration" prefWidth="132.0" text="Duration" />
+            <TableColumn fx:id="created" prefWidth="123.0" text="Date" />
+        </columns>
+      </TableView>
+      <Label layoutX="272.0" layoutY="32.0" text="Leaderboard">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Button layoutX="300.0" layoutY="635.0" mnemonicParsing="false" onAction="#back" prefHeight="51.0" prefWidth="122.0" text="Main menu" />
+   </children>
+</Pane>

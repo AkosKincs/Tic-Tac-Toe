@@ -1,237 +1,228 @@
 package controller;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import lombok.extern.slf4j.Slf4j;
-import tictactoe.results.GameResult;
-import tictactoe.results.GameResultDao;
-import tictactoe.state.TicTacToeState;
-
-import java.io.IOException;
-import java.time.Duration;
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import tictactoe.model.TicTacToeModel;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.temporal.ChronoUnit;
 
 @Slf4j
 public class GameController {
 
-    public String player1Name;
-    public String player2Name;
-    private TicTacToeState ticTacToeState;
-    private String winner;
-    private boolean gameGoes = true;
-    //private List<Integer> whereCanMove = new ArrayList<>();
-    private GameResultDao gameResultDao;
-    private boolean oTurn = true;
-    private short counter = 0;
-    private Instant beginGame;
-    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    @FXML
+    private Pane pane;
 
     @FXML
-    private List<ImageView> boardElements;
+    private GridPane gamePane;
 
     @FXML
-    private ImageView background;
+    private Text player1Name;
 
     @FXML
-    private GridPane board;
+    private Text player2Name;
 
     @FXML
-    private Label currentTurnLabel;
+    private Label winnerLabel;
+
+    @FXML
+    private Label stopWatchLabel;
 
     @FXML
     private Button resetButton;
 
-    /**
-     * Saves the both players' names in {@code player1Name} and {@code player2Name}.
-     *
-     * @param player1 is the name of player 1
-     * @param player2 is the name of player 2
-     */
-    public void initializeData(String player1, String player2) {
-        this.player1Name = player1;
-        this.player2Name = player2;
-        currentTurnLabel.setText(this.player1Name);
-    }
+    @FXML
+    private Button doneButton;
 
-    /**
-     * Draws the main game grid.
-     */
-    private void drawGamegrid() {
-        background.setImage(new Image(getClass().getResource("/pictures/grid.png").toExternalForm()));
-    }
+    @FXML
+    private ImageView background;
 
-    /**
-     * Initializes the game fxml file.
-     */
+    private String p1NameString;
+    private String p2NameString;
+    private TicTacToeModel gameModel;
+    private String currentPlayer;
+    private boolean gameOver;
+    private Instant startTime;
+    private Timeline stopWatchTimeline;
+
+
     @FXML
     public void initialize() {
-        beginGame = Instant.now();
-
-        //gameResultDao = GameResultDao.getInstance();
-        //state = new TicTacToeState();
-
-        for (ImageView boardElement : boardElements) {
-            boardElement.setDisable(false);
-            boardElement.setImage(new Image("/pictures/nothing.png"));
-            boardElement.setAccessibleText("N");
-        }
+        Platform.runLater(() -> {
+            player1Name.setText(p1NameString);
+            player2Name.setText(p2NameString);
+            gameModel.setPlayer2Name(p1NameString);
+            gameModel.setPlayer2Name(p2NameString);
+            startTime = Instant.now();
+            resetGame();
+        });
+        resetGame();
     }
 
-    @FXML
-    public void imageClicked(Event e) throws IOException {
-        ImageView clickedElement = (ImageView) e.getSource();
-        if (oTurn) {
-            clickedElement.setAccessibleText("O");
-            clickedElement.setImage(new Image("/pictures/o.png"));
-            currentTurnLabel.setText(this.player2Name);
-
-        } else {
-            clickedElement.setAccessibleText("X");
-            clickedElement.setImage(new Image("/pictures/x.png"));
-            currentTurnLabel.setText(this.player1Name);
-        }
-        counter++;
-        clickedElement.setDisable(true);
-
-        if (this.checkIfThereIsAWinner()) {
-            this.disableFreeFields();
-            String winner = oTurn ? player1Name : player2Name;
-            alert.setTitle("We have a winner!");
-            alert.setHeaderText(null);
-            alert.setContentText("Winner is " + winner + ". Do you want to play once again?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
-                this.initialize();
-            } else {
-                Parent root = FXMLLoader.load(getClass().getResource("/fxml/launch.fxml"));
-                Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-            }
-            counter = 0;
-        } else if (counter == 9) {
-            alert.setTitle("We have a draw!");
-            alert.setHeaderText(null);
-            alert.setContentText("We don't have a winner. Do you want to play once again?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
-                this.initialize();
-            } else {
-                // TODO exit room
-                //Platform.exit();
-
-                Parent root = FXMLLoader.load(getClass().getResource("/fxml/launch.fxml"));
-                Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-
-            }
-            counter = 0;
-        }
-        oTurn = !oTurn;
+    public void setName1(String p1NameString) {
+        this.p1NameString = p1NameString;
     }
-    private boolean checkIfThereIsAWinner() {
-        // jatektabla lekepezese:
-        // 0 1 2
-        // 3 4 5
-        // 6 7 8
-        int[][] arrayOfConditions = {
-                {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // horizontal conditions
-                {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // vertical conditions
-                {0, 4, 8}, {2, 4, 6} // diagonal conditions
-        };
 
-        for (int i = 0; i < arrayOfConditions.length; i++) {
-            if (this.checkIfElementsAreEqual(arrayOfConditions[i])) {
-                return true;
+    public void setName2(String p2NameString){
+        this.p2NameString = p2NameString;
+    }
+
+   /* public void initGame() {
+        winnerLabel.setText("");
+        gameModel = new TicTacToeModel();
+        gameModel.setP1name(p1name);
+        gameModel.setP2name(p2name);
+        currentPlayer = p1name;
+        startTime = Instant.now();
+        createStopWatch();
+        for (int i = 0; i < 1024; i += 1024/32) {
+            for (int j = 0; j < 100; j += 100) {
+                Rectangle r = new Rectangle(i, j, 1024/32, 1024/32);
+                r.setFill(Color.SANDYBROWN);
+                r.setStroke(Color.BLACK);
+                pane.getChildren().addAll(r); //hozzáadja a dolgokat amiket ki kell rajzolni
+                r.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, r));
             }
         }
-        return false;
-    }
+    }*/
 
-    public boolean checkIfElementsAreEqual(int[] indices) {
-        String start = boardElements.get(indices[0]).getAccessibleText();
-        if (start.equals("N")) {
-            return false;
-        }
-        for (int i = 1; i < indices.length; i++) {
-            if (!start.equals(boardElements.get(indices[i]).getAccessibleText())) {
-                return false;
+
+  private void mousePressed(MouseEvent mouseEvent, Rectangle r) {
+        if (!gameOver) {
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                try {
+                    if (gameModel.isEmptyField((int) r.getY() / 180, (int) r.getX() / 180)) {
+                        gameModel.move(currentPlayer, (int) r.getY() / 180, (int) r.getX() / 180);
+                        if (currentPlayer.equals(gameModel.getPlayer1Name())) {
+                            r.setFill(Color.BLUE);
+                        } else {
+                            r.setFill(Color.RED);
+                        }
+                        //increasePlayerSteps(currentPlayer);
+                        switchCurrentPlayer();
+                        if (gameModel.isGameOver()) {
+                            gameOver = true;
+                            winnerLabel.setText("The winner is: "+currentPlayer+"!");
+                            gameModel.setWinnerName(currentPlayer);
+                        }
+                        sout(gameModel.getGrid());
+                        if (gameOver) {
+                            System.out.println(gameModel.getWinnerName() + " won the game!");
+                        }
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("You can not move out of the field!");
+                }
+            }
+            else {
+                System.out.println("Invalid button pressed!");
             }
         }
-        return true;
     }
 
+    private void switchCurrentPlayer() {
+        if (this.currentPlayer.equals(gameModel.getPlayer1Name())) {
+            this.currentPlayer = gameModel.getPlayer2Name();
+        }
+        else {
+            this.currentPlayer = gameModel.getPlayer1Name();
+        }
+    }
 
-    public void disableFreeFields() {
-        for (ImageView boardElement : boardElements) {
-            if (boardElement.getAccessibleText().equals("N")) {
-                boardElement.setDisable(true);
-                boardElement.setImage(new Image("/pictures/nothing.png"));
+    public void sout(int [][]grid) {
+        System.out.println("");
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid.length; j++) {
+                if (j % 3 == 0) {
+                    System.out.println("");
+                }
+                System.out.print(grid[i][j]+" ");
             }
         }
-
+        System.out.println("");
     }
 
-   public void resetGame(ActionEvent actionEvent) throws IOException{
-		/*gameState = new new TicTacToeState();
-		drawGamegrid();
-		beginGame = Instant.now();
-        */
-
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/game.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-        log.info("Game reset.");
+    public void initializeData(String p1name, String p2name) {
+        this.p1NameString = p1name;
+        this.p2NameString = p2name;
+        createStopWatch();
     }
 
-  private GameResult getResult() {
+    public void resetState(ActionEvent actionEvent) {
+        resetGame();
+    }
 
-        log.info("Creating game result.");
-        return GameResult.builder()
-                .player1(player1Name)
-                .player2(player2Name)
-                .winner(winner)
-                .duration(Duration.between(beginGame, Instant.now()))
-                .build();
+    public void resetGame() {
+        gameOver = false;
+        gameModel = new TicTacToeModel();
+        gameModel.setPlayer1Name(player1Name.getText());
+        gameModel.setPlayer2Name(player2Name.getText());
+        currentPlayer = gameModel.getPlayer1Name();
+
+        int [][] g = new int[3][3];
+        for (int i = 0; i < g.length; i++) {
+            //g[i]=transposeMatrix(gameModel.getGrid(), i);
+        }
+        for (int i = 100; i < 600; i+=210) {
+            for (int j = 100; j < 600; j+=210) {
+                Rectangle r = new Rectangle(i, j, 200, 200);
+                Circle c = new Circle();
+                double radius = 32 / 3.0;
+                int x = 32 / 2 + 32 * (0+(int)r.getX()/32);
+                int y = 32 / 2 + 32 * (0+(int)r.getY()/32);
+
+                c.setRadius(radius);
+                c.setTranslateX(x);
+                c.setTranslateY(y);
+
+                switch (g[i/200][j/200]) {
+                    case 1:
+                        r.setFill(Color.BLUE);
+                        break;
+                    case 2:
+                        c.setFill(Color.RED);
+                        break;
+                    default:
+                        r.setFill(Color.WHITE);
+                }
+
+                pane.getChildren().addAll(r);
+                r.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, r));
+            }
+        }
     }
 
 
-
-    /*
-     * Loads the top list when the player clicks on the exit button.
-     *
-     * @param actionEvent a click by the player
-     * @throws IOException if {@code fxmlLoader} can't load fxml file
+    /**
+     * A method that creates and runs the stopwatch.
      */
-    public void finishGame(ActionEvent actionEvent) throws IOException {
-        //gameResultDao.persist(getResult());
-
-        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/toplist.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        //stage.setScene(new Scene(root));
-        stage.setX((Screen.getPrimary().getBounds().getWidth()/2)-350);
-        stage.setY(0);
-        stage.show();
-        log.info("Finished game, loading Top List scene.");
+    private void createStopWatch() {
+        stopWatchTimeline = new Timeline(new KeyFrame(javafx.util.Duration.ZERO, e -> {
+            long millisElapsed = startTime.until(Instant.now(), ChronoUnit.MILLIS);
+            stopWatchLabel.setText(DurationFormatUtils.formatDuration(millisElapsed, "HH:mm:ss"));
+        }), new KeyFrame(javafx.util.Duration.seconds(1)));
+        stopWatchTimeline.setCycleCount(Animation.INDEFINITE);
+        stopWatchTimeline.play();
     }
 
+    public void exitGame(ActionEvent actionEvent) {
+        Platform.exit();
+    }
 }
