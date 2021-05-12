@@ -13,6 +13,9 @@ public class TicTacToeModel {
     private String player2Name;
     private String winnerName;
     private boolean gameOver;
+    private int p1Steps;
+    private int p2Steps;
+    private int stepsForWin;
 
 
     private int[][] grid = new int[][]{
@@ -52,7 +55,6 @@ public class TicTacToeModel {
         {
             if (gridFull())
             {
-                System.out.println ("It is a tie. Cats game!") ;
                 gameOver = true;
                 return true;
             }
@@ -115,6 +117,17 @@ public class TicTacToeModel {
 
         return false;
     }
+
+
+    public void stepDicider(){
+        if(player1WinCheck()){
+            stepsForWin = p1Steps;
+        }
+        else if(player2WinCheck()){
+            stepsForWin = p2Steps;
+        }
+    }
+
 
     public boolean gridFull()
     {

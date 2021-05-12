@@ -10,12 +10,7 @@
 
 <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameController">
    <children>
-      <Text layoutX="14.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 1:" wrappingWidth="79.2509765625">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="14.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 2:">
+      <Text layoutX="274.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="steps:" wrappingWidth="79.2509765625">
          <font>
             <Font size="18.0" />
          </font>
@@ -26,25 +21,50 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label fx:id="winnerLabel" layoutX="401.0" layoutY="38.0" prefHeight="49.0" prefWidth="291.0" textFill="#0214f0">
+      <Label fx:id="winnerLabel" layoutX="401.0" layoutY="17.0" prefHeight="50.0" prefWidth="392.0" textFill="#0214f0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Text fx:id="player1Name" layoutX="120.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="185.2509765625">
+      <Text fx:id="player1Name" layoutX="72.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="185.2509765625">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text fx:id="player2Name" layoutX="120.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="185.2509765625">
+      <Text fx:id="player2Name" layoutX="72.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="185.2509765625">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <ImageView fitHeight="57.0" fitWidth="103.0" layoutX="14.0" layoutY="727.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="57.0" fitWidth="103.0" layoutX="20.0" layoutY="732.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../pictures/tictactoe_logo.png" />
          </image>
       </ImageView>
+      <Text layoutX="274.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="steps:" wrappingWidth="79.2509765625">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="player1Steps" layoutX="340.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="player2Steps" layoutX="340.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="14.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="P1:" wrappingWidth="79.2509765625">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="14.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="P2:" wrappingWidth="79.2509765625">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
    </children>
 </Pane>

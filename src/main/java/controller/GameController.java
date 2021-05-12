@@ -12,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -53,7 +52,11 @@ public class GameController {
     private Button doneButton;
 
     @FXML
-    private ImageView background;
+    private Text player1Steps;
+
+    @FXML
+    private Text player2Steps;
+
 
     private String p1NameString;
     private String p2NameString;
@@ -86,6 +89,8 @@ public class GameController {
         gameModel.setPlayer1Name(p1NameString);
         gameModel.setPlayer2Name(p2NameString);
         currentPlayer = p1NameString;
+        player1Steps.setText("0");
+        player2Steps.setText("0");
         startTime = Instant.now();
         createStopWatch();
 
@@ -105,24 +110,27 @@ public class GameController {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                     if (gameModel.isEmptyField((int) r.getY() / 180, (int) r.getX() / 180)) {
                         gameModel.move(currentPlayer, (int) r.getY() / 180, (int) r.getX() / 180);
-                        if (currentPlayer.equals(gameModel.getPlayer1Name())) {
+                        if(currentPlayer.equals(gameModel.getPlayer1Name())) {
                             r.setFill(Color.BLUE);
-                            switchCurrentPlayer();
                         } else {
                             r.setFill(Color.RED);
-                            switchCurrentPlayer();
                         }
+                        increasePlayerSteps(currentPlayer);
+                        switchCurrentPlayer();
 
                         if (gameModel.isGameOver()) {
                             gameOver = true;
+                            switchCurrentPlayer();
                             winnerLabel.setText("The winner is: "+currentPlayer+"!");
+                            stopWatchTimeline.stop();
                             gameModel.setWinnerName(currentPlayer);
                         }
 
                         if(gameModel.isGameOverWithATie()){
                             gameOver = true;
-                            winnerLabel.setText("We don't have a winner!");
-                            gameModel.setWinnerName("");
+                            winnerLabel.setText("It's a tie! We don't have a winner!");
+                            stopWatchTimeline.stop();
+                            gameModel.setWinnerName("Nobody");
                         }
 
                         sout(gameModel.getGrid());
@@ -132,9 +140,6 @@ public class GameController {
 
                     }
                 }
-            }
-            else {
-                System.out.println("Invalid button pressed!");
             }
         }
 
@@ -160,16 +165,20 @@ public class GameController {
         System.out.println("");
     }
 
-    /*private void increasePlayerSteps(String player) {
+    /**
+     * Method used to set and increase the players' steps on the game board
+     */
+
+    private void increasePlayerSteps(String player) {
         if (player.equals(gameModel.getPlayer1Name())) {
-            gameModel.setP1steps(gameModel.getP1steps()+1);
-            p1steps.setText(gameModel.getP1steps()+"");
+            gameModel.setP1Steps(gameModel.getP1Steps()+1);
+            player1Steps.setText(gameModel.getP1Steps()+"");
         }
         else {
-            gameModel.setP2steps(gameModel.getP2steps()+1);
-            p2steps.setText(gameModel.getP2steps()+"");
+            gameModel.setP2Steps(gameModel.getP2Steps()+1);
+            player2Steps.setText(gameModel.getP2Steps()+"");
         }
-    }*/
+    }
 
 
     /**
