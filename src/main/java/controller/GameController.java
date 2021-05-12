@@ -57,7 +57,6 @@ public class GameController {
     @FXML
     private Text player2Steps;
 
-
     private String p1NameString;
     private String p2NameString;
     private TicTacToeModel gameModel;
@@ -65,7 +64,6 @@ public class GameController {
     private boolean gameOver;
     private Instant startTime;
     private Timeline stopWatchTimeline;
-
 
     @FXML
     public void initialize() {
@@ -109,7 +107,7 @@ public class GameController {
         if (!gameOver) {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                     if (gameModel.isEmptyField((int) r.getY() / 180, (int) r.getX() / 180)) {
-                        gameModel.move(currentPlayer, (int) r.getY() / 180, (int) r.getX() / 180);
+                        gameModel.put(currentPlayer, (int) r.getY() / 180, (int) r.getX() / 180);
                         if(currentPlayer.equals(gameModel.getPlayer1Name())) {
                             r.setFill(Color.BLUE);
                         } else {
@@ -211,4 +209,13 @@ public class GameController {
         stage.setScene(new Scene(root));
         stage.show();
     }
+
+    public void goToLeaderBoard(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/leaderboard.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+        //  log.info("Loading highscores..");
+    }
+
 }

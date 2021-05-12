@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TopTenController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LeaderboardController">
    <children>
       <TableView fx:id="leaderboardTable" editable="true" layoutX="25.0" layoutY="74.0" prefHeight="550.0" prefWidth="650.0">
         <columns>
@@ -24,6 +24,6 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <Button layoutX="300.0" layoutY="635.0" mnemonicParsing="false" onAction="#back" prefHeight="51.0" prefWidth="122.0" text="Main menu" />
+      <Button layoutX="300.0" layoutY="635.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="51.0" prefWidth="122.0" text="Main menu" />
    </children>
 </Pane>

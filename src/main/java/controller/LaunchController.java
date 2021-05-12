@@ -34,7 +34,6 @@ public class LaunchController {
     @FXML
     private Button closeButton;
 
-
     @FXML
     public void startAction(ActionEvent actionEvent) throws IOException {
         if(player1TextField.getText().equalsIgnoreCase(player2TextField.getText())){
