@@ -12,6 +12,7 @@ public class TicTacToeModel {
     private String player1Name;
     private String player2Name;
     private String winnerName;
+    private boolean gameOver;
 
 
     private int[][] grid = new int[][]{
@@ -20,19 +21,21 @@ public class TicTacToeModel {
             {0, 0, 0}
     };
 
-    public boolean isEmptyField(int row, int col) throws IndexOutOfBoundsException {
+    public boolean isEmptyField(int row, int col) {
         if (grid[row][col] == 0) {
             return true;
         }
         return false;
     }
 
-    public void move(String currentPlayer, int row, int col) {
+    public void move(String playerName, int row, int col) {
         if (isEmptyField(row, col)) {
-            if (currentPlayer.equals(player1Name)) {
+            if (playerName.equals(player1Name)) {
                 grid[row][col] = 1;
+                //log.info("{} jatekos lepett egyet",playerName);
             } else {
                 grid[row][col] = 2;
+                //log.info("{} jatekos lepett egyet",playerName);
             }
         }
     }
@@ -40,6 +43,19 @@ public class TicTacToeModel {
     public boolean isGameOver() {
         if (player1WinCheck() || player2WinCheck()) {
             return true;
+        }
+        return false;
+    }
+
+    public boolean isGameOverWithATie(){
+        if (!player1WinCheck() || !player2WinCheck())
+        {
+            if (gridFull())
+            {
+                System.out.println ("It is a tie. Cats game!") ;
+                gameOver = true;
+                return true;
+            }
         }
         return false;
     }
@@ -100,7 +116,21 @@ public class TicTacToeModel {
         return false;
     }
 
+    public boolean gridFull()
+    {
+        for (int row = 0; row < grid.length; row++)
+        {
+            for (int col = 0; col < grid.length; col++)
+            {
+                if (grid[row][col] == 0)
+                {
+                    // a move still exists - board is not full
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
 }
-
-
-

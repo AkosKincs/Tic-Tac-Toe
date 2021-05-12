@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 
 /**
- * The controller class of the launch (menu) screen of the game.
+ * The controller class of the launch (main menu) screen of the game.
  */
 
 @Slf4j
@@ -59,7 +58,6 @@ public class LaunchController {
                 stage.show();
                 log.info("Player1's name is set to {}, Player2's name is set to {}, loading game scene.",
                         player1TextField.getText(), player2TextField.getText());
-
             }
         }
     }
