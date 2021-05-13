@@ -22,10 +22,17 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import tictactoe.model.TicTacToeModel;
+import tictactoe.results.GameResult;
+import tictactoe.results.GameResultDao;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+
+/**
+ * The controller class of the main screen of the game.
+ */
 
 @Slf4j
 public class GameController {
@@ -64,6 +71,7 @@ public class GameController {
     private boolean gameOver;
     private Instant startTime;
     private Timeline stopWatchTimeline;
+    private GameResultDao gameResultDao;
 
     @FXML
     public void initialize() {
@@ -122,6 +130,8 @@ public class GameController {
                             winnerLabel.setText("The winner is: "+currentPlayer+"!");
                             stopWatchTimeline.stop();
                             gameModel.setWinnerName(currentPlayer);
+                            gameResultDao = new GameResultDao();
+                            gameResultDao.persist(createGameResult());
                         }
 
                         if(gameModel.isGameOverWithATie()){
@@ -129,9 +139,9 @@ public class GameController {
                             winnerLabel.setText("It's a tie! We don't have a winner!");
                             stopWatchTimeline.stop();
                             gameModel.setWinnerName("Nobody");
+
                         }
 
-                        sout(gameModel.getGrid());
                         if (gameOver) {
                             System.out.println(gameModel.getWinnerName() + " won the game!");
                         }
@@ -194,28 +204,42 @@ public class GameController {
     /**
      * Method used for reinitializing the game
      */
-
     public void resetGame() {
         initializeGame();
+        log.info("The game has been reset.");
     }
 
     /**
      * Method which takes back to main menu of the game.
      */
-
     public void exitToMainMenu(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/launch.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+        log.info("Loading starting scene.");
     }
 
-    public void goToLeaderBoard(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/leaderboard.fxml"));
+    public GameResult createGameResult(){
+        String loser = "";
+        if(gameModel.getWinnerName().equals(gameModel.getPlayer1Name())){
+            loser = gameModel.getPlayer2Name();
+        }
+        else {
+            loser = gameModel.getPlayer1Name();
+        }
+        return GameResult.builder().winnerName(gameModel.getWinnerName())
+                .duration(Duration.between(startTime,Instant.now()))
+                .loserName(loser).build();
+    }
+
+    public void handleHighScoreButton(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/highscores.fxml"));
+        Parent root = fxmlLoader.load();
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
-        //  log.info("Loading highscores..");
+        log.info("Loading leaderboard scene..");
     }
 
 }

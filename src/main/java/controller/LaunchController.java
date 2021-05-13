@@ -18,7 +18,6 @@ import java.io.IOException;
 /**
  * The controller class of the launch (main menu) screen of the game.
  */
-
 @Slf4j
 public class LaunchController {
 
@@ -62,9 +61,10 @@ public class LaunchController {
     }
 
     @FXML
-    private void closeButtonAction(){
+    private void closeButtonAction(ActionEvent actionEvent) throws IOException{
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
+        log.info("Closing application..");
     }
 
 }

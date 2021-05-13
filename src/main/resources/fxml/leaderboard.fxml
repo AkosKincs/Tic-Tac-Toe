@@ -11,12 +11,10 @@
    <children>
       <TableView fx:id="leaderboardTable" editable="true" layoutX="25.0" layoutY="74.0" prefHeight="550.0" prefWidth="650.0">
         <columns>
-          <TableColumn fx:id="player1" prefWidth="111.0" text="Player 1" />
-            <TableColumn fx:id="player2" prefWidth="115.0" text="Player 2" />
-          <TableColumn fx:id="winner" prefWidth="97.0" text="Winner" />
-            <TableColumn fx:id="steps" prefWidth="71.0" text="Steps" />
-            <TableColumn fx:id="duration" prefWidth="132.0" text="Duration" />
-            <TableColumn fx:id="created" prefWidth="123.0" text="Date" />
+            <TableColumn fx:id="winner" prefWidth="145.0" text="Winner" />
+          <TableColumn fx:id="loser" prefWidth="154.0" text="Opponent" />
+            <TableColumn fx:id="duration" prefWidth="145.0" text="Duration" />
+            <TableColumn fx:id="created" prefWidth="205.0" text="Date" />
         </columns>
       </TableView>
       <Label layoutX="272.0" layoutY="32.0" text="Leaderboard">
@@ -24,6 +22,6 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <Button layoutX="300.0" layoutY="635.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="51.0" prefWidth="122.0" text="Main menu" />
+      <Button fx:id="mainMenuButton" layoutX="300.0" layoutY="635.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="51.0" prefWidth="122.0" text="Main menu" />
    </children>
 </Pane>
