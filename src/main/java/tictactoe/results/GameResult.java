@@ -25,7 +25,6 @@ public class GameResult {
     @GeneratedValue
     private Long id;
 
-
     /**
      * The name of the player who played the game.
      */
@@ -42,12 +41,13 @@ public class GameResult {
 
 
     /**
-     * The number of steps made by the player.
+     * The number of steps made by the winner player.
      */
 
-    /*@Column(nullable = false)
-    private int steps;
-*/
+    @Column(nullable = false)
+    private Integer stepsForWin;
+
+
     /**
      * The duration of the game.
      */

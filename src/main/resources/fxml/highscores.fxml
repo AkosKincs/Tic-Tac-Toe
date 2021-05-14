@@ -12,10 +12,10 @@
         <TableView fx:id="highScoreTable" editable="true" layoutX="52.0" layoutY="106.0" prefHeight="589.0" prefWidth="696.0">
             <columns>
                 <TableColumn fx:id="name" prefWidth="130.0" text="Winner" />
-            <TableColumn fx:id="steps" prefWidth="62.0" text="Steps" />
-                <TableColumn fx:id="opponentName" prefWidth="139.0" text="Opponent" />
-                <TableColumn fx:id="created" minWidth="0.0" prefWidth="176.0" text="Date" />
-                <TableColumn fx:id="duration" prefWidth="142.0" text="Duration" />
+            <TableColumn fx:id="steps" prefWidth="60.0" text="Steps" />
+                <TableColumn fx:id="opponentName" prefWidth="135.0" text="Opponent" />
+                <TableColumn fx:id="created" minWidth="0.0" prefWidth="249.0" text="Date" />
+                <TableColumn fx:id="duration" prefWidth="121.0" text="Duration" />
             </columns>
         </TableView>
         <Label layoutX="330.0" layoutY="55.0" text="Leaderboard">

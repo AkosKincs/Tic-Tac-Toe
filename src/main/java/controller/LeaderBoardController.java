@@ -41,13 +41,17 @@ public class LeaderBoardController {
     private TableColumn<GameResult, String> name;
 
     @FXML
+    private TableColumn<GameResult, String> steps;
+
+    @FXML
     private TableColumn<GameResult, String> opponentName;
+
+    @FXML
+    private TableColumn<GameResult, ZonedDateTime> created;
 
     @FXML
     private TableColumn<GameResult, Duration> duration;
 
-    @FXML
-    private TableColumn<GameResult, ZonedDateTime> created;
 
 
     @FXML
@@ -59,6 +63,7 @@ public class LeaderBoardController {
         duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         created.setCellValueFactory(new PropertyValueFactory<>("created"));
         opponentName.setCellValueFactory(new PropertyValueFactory<>("loserName"));
+        steps.setCellValueFactory(new PropertyValueFactory<>("stepsForWin"));
 
         duration.setCellFactory(column -> {
             TableCell<GameResult, Duration> cell = new TableCell<GameResult, Duration>() {
@@ -115,7 +120,7 @@ public class LeaderBoardController {
      */
     public void exitGame(ActionEvent actionEvent) {
         Platform.exit();
-        log.info("Closing application.");
+        log.info("Closing application..");
     }
 
 }

@@ -132,20 +132,14 @@ public class GameController {
                             gameModel.setWinnerName(currentPlayer);
                             gameResultDao = new GameResultDao();
                             gameResultDao.persist(createGameResult());
+                            log.info("The winner of the game is {}.", currentPlayer);
                         }
 
                         if(gameModel.isGameOverWithATie()){
                             gameOver = true;
                             winnerLabel.setText("It's a tie! We don't have a winner!");
-                            stopWatchTimeline.stop();
-                            gameModel.setWinnerName("Nobody");
-
+                            log.info("No winner for this game.");
                         }
-
-                        if (gameOver) {
-                            System.out.println(gameModel.getWinnerName() + " won the game!");
-                        }
-
                     }
                 }
             }
@@ -160,23 +154,10 @@ public class GameController {
         }
     }
 
-    public void sout(int [][]grid) {
-        System.out.println("");
-        for(int i = 0; i < grid.length; i++) {
-            for(int j = 0; j < grid.length; j++) {
-                if (j % 3 == 0) {
-                    System.out.println("");
-                }
-                System.out.print(grid[i][j]+" ");
-            }
-        }
-        System.out.println("");
-    }
-
     /**
-     * Method used to set and increase the players' steps on the game board
+     * Method used to set and increase the players' steps on the game board.
+     * Also refreshes the text on main screen used to indicate the players' steps.
      */
-
     private void increasePlayerSteps(String player) {
         if (player.equals(gameModel.getPlayer1Name())) {
             gameModel.setP1Steps(gameModel.getP1Steps()+1);
@@ -222,15 +203,21 @@ public class GameController {
 
     public GameResult createGameResult(){
         String loser = "";
+        int steps;
+
         if(gameModel.getWinnerName().equals(gameModel.getPlayer1Name())){
             loser = gameModel.getPlayer2Name();
+            steps = gameModel.getP1Steps();
         }
         else {
             loser = gameModel.getPlayer1Name();
+            steps = gameModel.getP2Steps();
         }
         return GameResult.builder().winnerName(gameModel.getWinnerName())
                 .duration(Duration.between(startTime,Instant.now()))
-                .loserName(loser).build();
+                .loserName(loser)
+                .stepsForWin(steps)
+                .build();
     }
 
     public void handleHighScoreButton(ActionEvent actionEvent) throws IOException {

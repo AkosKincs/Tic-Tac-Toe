@@ -17,7 +17,6 @@ public class TicTacToeModel {
     private boolean gameOver;
     private int p1Steps;
     private int p2Steps;
-    private int stepsForWin;
 
 
     /**
@@ -55,7 +54,7 @@ public class TicTacToeModel {
                 log.info("{} jatekos a kovetkezo pozicioba lepett: {},{}",playerName, row, col);
             } else {
                 grid[row][col] = 2;
-                log.info("{} jatekos a kovetkezo poziciorba lepett: {},{}",playerName, row, col);
+                log.info("{} jatekos a kovetkezo pozicioba lepett: {},{}",playerName, row, col);
             }
         }
     }
@@ -178,15 +177,6 @@ public class TicTacToeModel {
         }
 
         return false;
-    }
-
-    public void stepDicider(){
-        if(player1WinCheck()){
-            stepsForWin = p1Steps;
-        }
-        else if(player2WinCheck()){
-            stepsForWin = p2Steps;
-        }
     }
 
 }

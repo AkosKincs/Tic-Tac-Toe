@@ -21,7 +21,7 @@ public class GameResultDao extends GenericJpaDao<GameResult> {
      */
     @Transactional
     public List<GameResult> findAll() {
-        return entityManager.createQuery("SELECT r FROM GameResult r order by r.duration asc", GameResult.class)
+        return entityManager.createQuery("SELECT r FROM GameResult r order by r.stepsForWin asc, r.duration", GameResult.class)
                 .getResultList();
     }
 
