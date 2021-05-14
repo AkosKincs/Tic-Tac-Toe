@@ -100,15 +100,24 @@ public class TicTacToeModel {
      */
 
     public boolean isGameOverWithATie(){
-        if (!player1WinCheck() || !player2WinCheck())
-        {
-            if (gridFull())
-            {
-                gameOver = true;
-                return true;
-            }
+
+        if(player1WinCheck()){
+            gameOver = true;
+            return false;
         }
+
+        else if(player2WinCheck()){
+            gameOver = true;
+            return false;
+        }
+
+        else if (gridFull() && !(player1WinCheck() || player2WinCheck())){
+            gameOver = true;
+            return true;
+        }
+
         return false;
+
     }
 
     /**
