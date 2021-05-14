@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +32,12 @@ public class LaunchController {
     @FXML
     private Button closeButton;
 
+    /**
+     * Loads the game when of the users clicks on the given button.
+     *
+     * @param actionEvent is a click by a user
+     * @throws IOException if {@code fxmlLoader} if the fxml file cannot be loaded
+     */
     @FXML
     public void startAction(ActionEvent actionEvent) throws IOException {
         if(player1TextField.getText().equalsIgnoreCase(player2TextField.getText())){
@@ -51,8 +56,6 @@ public class LaunchController {
                 fxmlLoader.<GameController>getController().initializeData(player1TextField.getText(), player2TextField.getText());
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));
-                stage.setX((Screen.getPrimary().getBounds().getWidth()/2)-400);
-                stage.setY(0);
                 stage.show();
                 log.info("Player1's name is set to {}, Player2's name is set to {}, loading game scene.",
                         player1TextField.getText(), player2TextField.getText());
@@ -60,8 +63,11 @@ public class LaunchController {
         }
     }
 
+    /**
+     * Closes the application.
+     */
     @FXML
-    private void closeButtonAction(ActionEvent actionEvent) throws IOException{
+    private void closeButtonAction(){
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
         log.info("Closing application..");

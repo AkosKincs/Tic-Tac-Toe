@@ -33,7 +33,6 @@ import java.time.temporal.ChronoUnit;
 /**
  * The controller class of the main screen of the game.
  */
-
 @Slf4j
 public class GameController {
 
