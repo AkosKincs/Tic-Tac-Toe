@@ -26,9 +26,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
 
-/**
- * The controller class for the leaderboard of the game.
- */
 @Slf4j
 public class LeaderBoardController {
 
@@ -102,10 +99,6 @@ public class LeaderBoardController {
         log.info("Loading high scores...");
     }
 
-
-    /**
-     * Method which takes back to main menu of the game.
-     */
     public void exitToMainMenu(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/launch.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -114,10 +107,6 @@ public class LeaderBoardController {
         log.info("Loading starting scene..");
     }
 
-    /**
-     * A method that is called a the player clicks on the exit button.
-     * @param actionEvent the current action event
-     */
     public void exitGame(ActionEvent actionEvent) {
         Platform.exit();
         log.info("Closing application..");

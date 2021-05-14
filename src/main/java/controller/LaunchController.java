@@ -14,9 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-/**
- * The controller class of the launch (main menu) screen of the game.
- */
 @Slf4j
 public class LaunchController {
 
@@ -32,12 +29,6 @@ public class LaunchController {
     @FXML
     private Button closeButton;
 
-    /**
-     * Loads the game when of the users clicks on the given button.
-     *
-     * @param actionEvent is a click by a user
-     * @throws IOException if {@code fxmlLoader} if the fxml file cannot be loaded
-     */
     @FXML
     public void startAction(ActionEvent actionEvent) throws IOException {
         if(player1TextField.getText().equalsIgnoreCase(player2TextField.getText())){
@@ -63,9 +54,6 @@ public class LaunchController {
         }
     }
 
-    /**
-     * Closes the application.
-     */
     @FXML
     private void closeButtonAction(){
         Stage stage = (Stage) closeButton.getScene().getWindow();

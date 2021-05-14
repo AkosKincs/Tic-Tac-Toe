@@ -30,9 +30,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-/**
- * The controller class of the main screen of the game.
- */
 @Slf4j
 public class GameController {
 
@@ -112,9 +109,6 @@ public class GameController {
 
     }
 
-    /**
-     * Method for creating and initializing the stopwatch appearing on game screen
-     */
     private void createStopWatch() {
         stopWatchTimeline = new Timeline(new KeyFrame(javafx.util.Duration.ZERO, e -> {
             long millisElapsed = startTime.until(Instant.now(), ChronoUnit.MILLIS);
@@ -171,10 +165,6 @@ public class GameController {
 
     }
 
-    /**
-     * Method used to set and increase the players' steps on the game board.
-     * Also refreshes the text on main screen used to indicate the players' steps.
-     */
     private void increasePlayerSteps(String player) {
         if (player.equals(gameModel.getPlayer1Name())) {
             gameModel.setP1Steps(gameModel.getP1Steps()+1);
@@ -187,18 +177,11 @@ public class GameController {
 
     }
 
-
-    /**
-     * Method used for reinitializing the game
-     */
     public void resetGame() {
         initializeGame();
         log.info("The game has been reset.");
     }
 
-    /**
-     * Method which takes back to main menu of the game.
-     */
     public void exitToMainMenu(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/launch.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -224,7 +207,6 @@ public class GameController {
                 .loserName(loser)
                 .stepsForWin(steps)
                 .build();
-
     }
 
     public void handleHighScoreButton(ActionEvent actionEvent) throws IOException {
