@@ -97,8 +97,8 @@ public class GameController {
         currentPlayer = p1NameString;
         player1Steps.setText("0");
         player2Steps.setText("0");
-        startTime = Instant.now();
         createStopWatch();
+        startTime = Instant.now();
 
         for (int i = 100; i < 600; i += 210) {
             for (int j = 100; j < 600; j += 210) {
@@ -108,10 +108,25 @@ public class GameController {
                 r.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, r));
             }
         }
+
+        log.info("Initializing game..");
+
     }
 
-  private void mousePressed(MouseEvent mouseEvent, Rectangle r) {
+    /**
+     * Method for creating and initializing the stopwatch appearing on game screen
+     */
+    private void createStopWatch() {
+        stopWatchTimeline = new Timeline(new KeyFrame(javafx.util.Duration.ZERO, e -> {
+            long millisElapsed = startTime.until(Instant.now(), ChronoUnit.MILLIS);
+            stopWatchLabel.setText(DurationFormatUtils.formatDuration(millisElapsed, "HH:mm:ss"));
+        }), new KeyFrame(javafx.util.Duration.seconds(1)));
+        stopWatchTimeline.setCycleCount(Animation.INDEFINITE);
+        stopWatchTimeline.play();
+    }
 
+
+  private void mousePressed(MouseEvent mouseEvent, Rectangle r) {
         if (!gameOver) {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                     if (gameModel.isEmptyField((int) r.getY() / 180, (int) r.getX() / 180)) {
@@ -128,10 +143,10 @@ public class GameController {
                             gameOver = true;
                             switchCurrentPlayer();
                             winnerLabel.setText("The winner is: "+currentPlayer+"!");
-                            stopWatchTimeline.stop();
                             gameModel.setWinnerName(currentPlayer);
                             gameResultDao = new GameResultDao();
                             gameResultDao.persist(createGameResult());
+                            stopWatchTimeline.stop();
                             log.info("The winner of the game is {}.", currentPlayer);
                         }
 
@@ -152,6 +167,9 @@ public class GameController {
         else {
             this.currentPlayer = gameModel.getPlayer1Name();
         }
+
+        log.info("Opponent's turn..");
+
     }
 
     /**
@@ -167,20 +185,9 @@ public class GameController {
             gameModel.setP2Steps(gameModel.getP2Steps()+1);
             player2Steps.setText(gameModel.getP2Steps()+"");
         }
+
     }
 
-
-    /**
-     * Method for creating and initializing the stopwatch appearing on game screen
-     */
-    private void createStopWatch() {
-        stopWatchTimeline = new Timeline(new KeyFrame(javafx.util.Duration.ZERO, e -> {
-            long millisElapsed = startTime.until(Instant.now(), ChronoUnit.MILLIS);
-            stopWatchLabel.setText(DurationFormatUtils.formatDuration(millisElapsed, "HH:mm:ss"));
-        }), new KeyFrame(javafx.util.Duration.seconds(1)));
-        stopWatchTimeline.setCycleCount(Animation.INDEFINITE);
-        stopWatchTimeline.play();
-    }
 
     /**
      * Method used for reinitializing the game
@@ -218,10 +225,11 @@ public class GameController {
                 .loserName(loser)
                 .stepsForWin(steps)
                 .build();
+
     }
 
     public void handleHighScoreButton(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/highscores.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/leaderboard.fxml"));
         Parent root = fxmlLoader.load();
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));

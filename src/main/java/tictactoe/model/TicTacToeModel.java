@@ -49,12 +49,12 @@ public class TicTacToeModel {
      */
     public void put(String playerName, int row, int col) {
         if (isEmptyField(row, col)) {
-            if (playerName.equals(player1Name)) {
+            if(playerName.equals(player1Name)) {
                 grid[row][col] = 1;
-                log.info("{} jatekos a kovetkezo pozicioba lepett: {},{}",playerName, row, col);
+                log.info("{} clicked on grid with the following coordinates: {},{}",playerName, row+1, col+1);
             } else {
                 grid[row][col] = 2;
-                log.info("{} jatekos a kovetkezo pozicioba lepett: {},{}",playerName, row, col);
+                log.info("{} clicked on grid with the following coordinates: {},{}",playerName, row+1, col+1);
             }
         }
     }
@@ -115,9 +115,7 @@ public class TicTacToeModel {
             gameOver = true;
             return true;
         }
-
         return false;
-
     }
 
     /**

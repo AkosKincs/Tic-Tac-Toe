@@ -56,7 +56,6 @@ public class LeaderBoardController {
 
     @FXML
     private void initialize() {
-        log.debug("Loading high scores...");
         gameResultDao = new GameResultDao();
         List<GameResult> highScoreList = gameResultDao.findAll();
         name.setCellValueFactory(new PropertyValueFactory<>("winnerName"));
@@ -100,6 +99,7 @@ public class LeaderBoardController {
         observableResult.addAll(highScoreList);
 
         highScoreTable.setItems(observableResult);
+        log.info("Loading high scores...");
     }
 
 
