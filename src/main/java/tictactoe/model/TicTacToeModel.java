@@ -29,7 +29,7 @@ public class TicTacToeModel {
     };
 
     /**
-     * Checks whether the given field of the grid is empty.
+     * Method that checks whether the given field of the grid is empty.
      *
      * @return {@code true} if it's empty, {@code false} otherwise
      */
@@ -77,7 +77,6 @@ public class TicTacToeModel {
      *
      * @return {@code true} if there is no empty pane, {@code false} otherwise
      */
-
     public boolean gridFull()
     {
         for (int row = 0; row < grid.length; row++)
@@ -98,7 +97,6 @@ public class TicTacToeModel {
      *
      * @return {@code true} if the game is over and there is no winner, {@code false} otherwise
      */
-
     public boolean isGameOverWithATie(){
 
         if(player1WinCheck()){
@@ -153,11 +151,10 @@ public class TicTacToeModel {
     }
 
     /**
-     * Checks whether the secnod player has won the game.
+     * Checks whether the second player has won the game.
      *
      * @return {@code true} if the second player is the winner, {@code false} otherwise
      */
-
     public boolean player2WinCheck() {
 
         for (int row = 0; row < grid.length; row++) {
