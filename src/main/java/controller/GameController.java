@@ -132,7 +132,7 @@ public class GameController {
                         increasePlayerSteps(currentPlayer);
                         switchCurrentPlayer();
 
-                        if (gameModel.isGameOver()) {
+                        if (gameModel.isGameOverWithAWinner()) {
                             gameOver = true;
                             switchCurrentPlayer();
                             winnerLabel.setText("The winner is: "+currentPlayer+"!");

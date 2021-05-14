@@ -18,7 +18,6 @@ public class TicTacToeModel {
     private int p1Steps;
     private int p2Steps;
 
-
     /**
      * The array representing the initial configuration of the game grid.
      */
@@ -65,7 +64,7 @@ public class TicTacToeModel {
      * @return {@code true} if the game is over and there is a winner, {@code false} otherwise
      */
 
-    public boolean isGameOver() {
+    public boolean isGameOverWithAWinner() {
         if (player1WinCheck() || player2WinCheck()) {
             return true;
         }
