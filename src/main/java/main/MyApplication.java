@@ -7,7 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-
+/**
+ * Class that controls the GUI.
+ */
 public class MyApplication extends Application {
 
     @Override
