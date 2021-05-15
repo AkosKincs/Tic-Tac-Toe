@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -26,6 +27,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
 
+/**
+ * Controller class of the leaderboard of the game.
+ */
 @Slf4j
 public class LeaderBoardController {
 
@@ -49,6 +53,8 @@ public class LeaderBoardController {
     @FXML
     private TableColumn<GameResult, Duration> duration;
 
+    @FXML
+    private Button exitButton;
 
 
     @FXML
@@ -96,9 +102,15 @@ public class LeaderBoardController {
         observableResult.addAll(highScoreList);
 
         highScoreTable.setItems(observableResult);
-        log.info("Loading high scores...");
+        log.info("Loading high scores..");
     }
 
+    /**
+     * Method which getting called when someone clicks on button 'Main Menu'.
+     * @param actionEvent is a click by a user
+     * @throws IOException if the fxml file cannot be loaded
+     */
+    @FXML
     public void exitToMainMenu(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/launch.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -107,8 +119,13 @@ public class LeaderBoardController {
         log.info("Loading starting scene..");
     }
 
-    public void exitGame(ActionEvent actionEvent) {
-        Platform.exit();
+    /**
+     * Closes the application.
+     */
+    @FXML
+    public void exitGame() {
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        stage.close();
         log.info("Closing application..");
     }
 

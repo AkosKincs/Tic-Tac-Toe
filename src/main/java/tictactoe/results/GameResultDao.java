@@ -5,9 +5,14 @@ import util.jpa.GenericJpaDao;
 import javax.transaction.Transactional;
 import java.util.List;
 
-
+/**
+ * DAO class for the {@link GameResult} entity.
+ */
 public class GameResultDao extends GenericJpaDao<GameResult> {
 
+    /**
+     * The constructor of GameResult Data Access Object.
+     */
     public GameResultDao() {
         super(GameResult.class);
     }

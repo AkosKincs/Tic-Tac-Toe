@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 
 
 /**
- * Class for representing the result of a game
+ * Class for representing the result of a game.
  */
 
 @Data

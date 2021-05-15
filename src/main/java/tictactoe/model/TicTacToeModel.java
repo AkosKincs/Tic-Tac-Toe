@@ -5,6 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Class representing the model of the game.
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,8 +32,9 @@ public class TicTacToeModel {
     };
 
     /**
-     * Method that checks whether the given field of the grid is empty.
-     *
+     * Method that checks whether the given pane of the grid is empty.
+     * @param row is the row
+     * @param col is the column
      * @return {@code true} if it's empty, {@code false} otherwise
      */
     public boolean isEmptyField(int row, int col) {
