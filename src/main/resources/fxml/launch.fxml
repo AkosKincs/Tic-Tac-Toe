@@ -27,9 +27,9 @@
       </Label>
       <TextField fx:id="player1TextField" layoutX="177.0" layoutY="233.0" prefHeight="26.0" prefWidth="158.0" />
       <TextField fx:id="player2TextField" layoutX="177.0" layoutY="288.0" prefHeight="26.0" prefWidth="158.0" />
-      <Button layoutX="447.0" layoutY="213.0" mnemonicParsing="false" onAction="#startAction" prefHeight="51.0" prefWidth="105.0" text="Play" />
+      <Button fx:id="playButton" layoutX="447.0" layoutY="213.0" mnemonicParsing="false" onAction="#playButtonAction" prefHeight="51.0" prefWidth="105.0" text="Play" />
       <Label fx:id="errorLabel" layoutX="185.0" layoutY="184.0" prefHeight="16.0" prefWidth="300.0" textFill="#e30e0e" />
-      <Button fx:id="closeButton" layoutX="447.0" layoutY="300.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="51.0" prefWidth="105.0" text="Exit" />
+      <Button fx:id="quitButton" layoutX="447.0" layoutY="300.0" mnemonicParsing="false" onAction="#quitButtonAction" prefHeight="51.0" prefWidth="105.0" text="Quit" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../pictures/tictactoe_logo.png" />

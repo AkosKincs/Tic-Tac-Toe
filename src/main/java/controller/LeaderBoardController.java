@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,7 +35,10 @@ public class LeaderBoardController {
     private GameResultDao gameResultDao;
 
     @FXML
-    private TableView<GameResult> highScoreTable;
+    private Button quitButton;
+
+    @FXML
+    private TableView<GameResult> leaderboardTable;
 
     @FXML
     private TableColumn<GameResult, String> name;
@@ -52,9 +54,6 @@ public class LeaderBoardController {
 
     @FXML
     private TableColumn<GameResult, Duration> duration;
-
-    @FXML
-    private Button exitButton;
 
 
     @FXML
@@ -101,7 +100,7 @@ public class LeaderBoardController {
         ObservableList<GameResult> observableResult = FXCollections.observableArrayList();
         observableResult.addAll(highScoreList);
 
-        highScoreTable.setItems(observableResult);
+        leaderboardTable.setItems(observableResult);
         log.info("Loading high scores..");
     }
 
@@ -111,7 +110,7 @@ public class LeaderBoardController {
      * @throws IOException if the fxml file cannot be loaded
      */
     @FXML
-    public void exitToMainMenu(ActionEvent actionEvent) throws IOException {
+    public void backToMainMenu(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/launch.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
@@ -123,8 +122,8 @@ public class LeaderBoardController {
      * Closes the application.
      */
     @FXML
-    public void exitGame() {
-        Stage stage = (Stage) exitButton.getScene().getWindow();
+    public void quitButtonAction() {
+        Stage stage = (Stage) quitButton.getScene().getWindow();
         stage.close();
         log.info("Closing application..");
     }

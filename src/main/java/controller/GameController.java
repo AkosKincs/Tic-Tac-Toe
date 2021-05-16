@@ -118,9 +118,7 @@ public class GameController {
                 r.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, r));
             }
         }
-
         log.info("Initializing game..");
-
     }
 
     /**
@@ -154,13 +152,13 @@ public class GameController {
                         switchCurrentPlayer();
 
                         if (gameModel.isGameOverWithAWinner()) {
+                            stopWatchTimeline.stop();
                             gameOver = true;
                             switchCurrentPlayer();
                             winnerLabel.setText("The winner is: "+currentPlayer+"!");
                             gameModel.setWinnerName(currentPlayer);
                             gameResultDao = new GameResultDao();
                             gameResultDao.persist(createGameResult());
-                            stopWatchTimeline.stop();
                             log.info("The winner of the game is {}.", currentPlayer);
                         }
 

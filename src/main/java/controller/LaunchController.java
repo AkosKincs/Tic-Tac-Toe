@@ -30,7 +30,7 @@ public class LaunchController {
     private Label errorLabel;
 
     @FXML
-    private Button closeButton;
+    private Button quitButton;
 
     /**
      * Loads the game when of the users click on the given button.
@@ -39,7 +39,7 @@ public class LaunchController {
      * @throws IOException if the fxml file cannot be loaded
      */
     @FXML
-    public void startAction(ActionEvent actionEvent) throws IOException {
+    public void playButtonAction(ActionEvent actionEvent) throws IOException {
         if(player1TextField.getText().equalsIgnoreCase(player2TextField.getText())){
             errorLabel.setText("The two players' name cannot be the same!");
         }
@@ -57,7 +57,7 @@ public class LaunchController {
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();
-                log.info("Player1's name is set to {}, Player2's name is set to {}, loading game scene.",
+                log.info("Player1's name is set to {}, Player2's name is set to {}, loading game scene..",
                         player1TextField.getText(), player2TextField.getText());
             }
         }
@@ -67,8 +67,8 @@ public class LaunchController {
      * Closes the application.
      */
     @FXML
-    private void closeButtonAction(){
-        Stage stage = (Stage) closeButton.getScene().getWindow();
+    private void quitButtonAction(){
+        Stage stage = (Stage) quitButton.getScene().getWindow();
         stage.close();
         log.info("Closing application..");
     }
