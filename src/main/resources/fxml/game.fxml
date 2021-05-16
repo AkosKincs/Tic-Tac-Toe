@@ -14,7 +14,7 @@
          </font>
       </Text>
       <Button fx:id="resetButton" layoutX="306.0" layoutY="731.0" mnemonicParsing="false" onAction="#resetGame" prefHeight="49.0" prefWidth="119.0" text="Reset" />
-      <Button fx:id="mainMenuButton" layoutX="667.0" layoutY="731.0" mnemonicParsing="false" onAction="#exitToMainMenu" prefHeight="49.0" prefWidth="119.0" text="Main Menu" />
+      <Button fx:id="mainMenuButton" layoutX="667.0" layoutY="731.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="49.0" prefWidth="119.0" text="Main Menu" />
       <Label fx:id="stopWatchLabel" layoutX="14.0" layoutY="731.0" prefHeight="49.0" prefWidth="266.0" textAlignment="CENTER">
          <font>
             <Font size="18.0" />
@@ -59,6 +59,6 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Button fx:id="leaderBoardButton" layoutX="490.0" layoutY="731.0" mnemonicParsing="false" onAction="#handleHighScoreButton" prefHeight="49.0" prefWidth="119.0" text="Leaderboard" />
+      <Button fx:id="leaderBoardButton" layoutX="490.0" layoutY="731.0" mnemonicParsing="false" onAction="#leaderBoardButtonAction" prefHeight="49.0" prefWidth="119.0" text="Leaderboard" />
    </children>
 </Pane>

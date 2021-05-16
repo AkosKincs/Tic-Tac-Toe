@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -52,12 +51,6 @@ public class GameController {
     private Label stopWatchLabel;
 
     @FXML
-    private Button resetButton;
-
-    @FXML
-    private Button doneButton;
-
-    @FXML
     private Text player1Steps;
 
     @FXML
@@ -65,8 +58,8 @@ public class GameController {
 
     private String p1NameString;
     private String p2NameString;
-    private TicTacToeModel gameModel;
     private String currentPlayer;
+    private TicTacToeModel gameModel;
     private boolean gameOver;
     private Instant startTime;
     private Timeline stopWatchTimeline;
@@ -148,7 +141,7 @@ public class GameController {
                         } else {
                             r.setFill(Color.RED);
                         }
-                        increasePlayerSteps(currentPlayer);
+                        increaseSteps(currentPlayer);
                         switchCurrentPlayer();
 
                         if (gameModel.isGameOverWithAWinner()) {
@@ -182,7 +175,6 @@ public class GameController {
         else {
             this.currentPlayer = gameModel.getPlayer1Name();
         }
-
         log.info("Opponent's turn..");
 
     }
@@ -192,7 +184,7 @@ public class GameController {
      * Also refreshes the text on main screen used to indicate the players' steps.
      * @param player is the player whose steps are getting increased
      */
-    private void increasePlayerSteps(String player) {
+    private void increaseSteps(String player) {
         if (player.equals(gameModel.getPlayer1Name())) {
             gameModel.setP1Steps(gameModel.getP1Steps()+1);
             player1Steps.setText(gameModel.getP1Steps()+"");
@@ -217,7 +209,7 @@ public class GameController {
      * @param actionEvent is a click by a user
      * @throws IOException if the fxml file cannot be loaded
      */
-    public void exitToMainMenu(ActionEvent actionEvent) throws IOException {
+    public void backToMainMenu(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/launch.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
@@ -253,7 +245,7 @@ public class GameController {
      * @param actionEvent is a click by a user
      * @throws IOException if the fxml file cannot be loaded
      */
-    public void handleHighScoreButton(ActionEvent actionEvent) throws IOException {
+    public void leaderBoardButtonAction(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/leaderboard.fxml"));
         Parent root = fxmlLoader.load();
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
