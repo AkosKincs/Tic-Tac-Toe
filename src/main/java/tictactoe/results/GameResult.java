@@ -26,16 +26,14 @@ public class GameResult {
     private Long id;
 
     /**
-     * The name of the player who played the game.
+     * The name of the player who won the game.
      */
-
     @Column(nullable = false)
     private String winnerName;
 
     /**
-     * The name of the opponent.
+     * The name of the winner player's opponent.
      */
-
     @Column(nullable = false)
     private String loserName;
 
@@ -43,7 +41,6 @@ public class GameResult {
     /**
      * The number of steps made by the winner player.
      */
-
     @Column(nullable = false)
     private Integer stepsForWin;
 
@@ -51,14 +48,12 @@ public class GameResult {
     /**
      * The duration of the game.
      */
-
     @Column(nullable = false)
     private Duration duration;
 
     /**
      * The timestamp when the result was saved.
      */
-
     @Column(nullable = false)
     private ZonedDateTime created;
 

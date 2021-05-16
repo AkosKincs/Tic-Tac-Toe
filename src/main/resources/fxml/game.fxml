@@ -19,7 +19,7 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label fx:id="winnerLabel" layoutX="401.0" layoutY="17.0" prefHeight="50.0" prefWidth="392.0" textFill="#0214f0">
+      <Label fx:id="infoLabel" layoutX="401.0" layoutY="17.0" prefHeight="50.0" prefWidth="392.0" textAlignment="CENTER" textFill="#0214f0">
          <font>
             <Font size="18.0" />
          </font>

@@ -45,7 +45,7 @@ public class GameController {
     private Text player2Name;
 
     @FXML
-    private Label winnerLabel;
+    private Label infoLabel;
 
     @FXML
     private Label stopWatchLabel;
@@ -93,7 +93,7 @@ public class GameController {
      */
     public void initializeGame() {
         gameOver = false;
-        winnerLabel.setText("");
+        infoLabel.setText("");
         gameModel = new TicTacToeModel();
         gameModel.setPlayer1Name(p1NameString);
         gameModel.setPlayer2Name(p2NameString);
@@ -148,7 +148,7 @@ public class GameController {
                             stopWatchTimeline.stop();
                             gameOver = true;
                             switchCurrentPlayer();
-                            winnerLabel.setText("The winner is: "+currentPlayer+"!");
+                            infoLabel.setText("The winner is: "+currentPlayer+"!");
                             gameModel.setWinnerName(currentPlayer);
                             gameResultDao = new GameResultDao();
                             gameResultDao.persist(createGameResult());
@@ -157,9 +157,12 @@ public class GameController {
 
                         if(gameModel.isGameOverWithATie()){
                             gameOver = true;
-                            winnerLabel.setText("It's a tie! We don't have a winner!");
+                            infoLabel.setText("It's a tie! We don't have a winner!");
                             log.info("No winner for this game.");
                         }
+                    }
+                    else{
+                        infoLabel.setText("Invalid step!");
                     }
                 }
             }

@@ -68,7 +68,6 @@ public class TicTacToeModel {
      *
      * @return {@code true} if the game is over and there is a winner, {@code false} otherwise
      */
-
     public boolean isGameOverWithAWinner() {
         if (player1WinCheck() || player2WinCheck()) {
             return true;
@@ -125,7 +124,6 @@ public class TicTacToeModel {
      *
      * @return {@code true} if the first player is the winner, {@code false} otherwise
      */
-
     public boolean player1WinCheck() {
 
         for (int row = 0; row < grid.length; row++) {
