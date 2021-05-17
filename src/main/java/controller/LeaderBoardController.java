@@ -106,7 +106,7 @@ public class LeaderBoardController {
 
     /**
      * Method which getting called when someone clicks on button 'Main Menu'.
-     * @param actionEvent is a click by a user
+     * @param actionEvent is an event by a user
      * @throws IOException if the fxml file cannot be loaded
      */
     @FXML

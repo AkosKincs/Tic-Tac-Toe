@@ -60,11 +60,11 @@ public class GameController {
     private String p1NameString;
     private String p2NameString;
     private String currentPlayer;
+    private GameResultDao gameResultDao;
     private TicTacToeState state;
     private boolean gameOver;
     private Instant startTime;
     private Timeline stopWatchTimeline;
-    private GameResultDao gameResultDao;
 
     /**
      * Method which makes parameter passing between controllers possible.
@@ -88,6 +88,7 @@ public class GameController {
         this.p1NameString = p1name;
         this.p2NameString = p2name;
     }
+
 
     /**
      * Method for initializing the game board.
@@ -116,27 +117,15 @@ public class GameController {
     }
 
     /**
-     * Method for creating and initializing the stopwatch appearing on game screen.
-     */
-    private void createStopWatch() {
-        stopWatchTimeline = new Timeline(new KeyFrame(javafx.util.Duration.ZERO, e -> {
-            long millisElapsed = startTime.until(Instant.now(), ChronoUnit.MILLIS);
-            stopWatchLabel.setText(DurationFormatUtils.formatDuration(millisElapsed, "HH:mm:ss"));
-        }), new KeyFrame(javafx.util.Duration.seconds(1)));
-        stopWatchTimeline.setCycleCount(Animation.INDEFINITE);
-        stopWatchTimeline.play();
-    }
-
-    /**
-     * Method for handling player clicks on the game grid.
-     * @param mouseEvent is a click by a user
+     * Method for handling player clicks on the game board.
+     * @param mouseEvent is an event by a user
      * @param r is a clickable pane
      */
     private void mousePressed(MouseEvent mouseEvent, Rectangle r) {
         if (!gameOver) {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                if (state.isEmptyField((int) r.getY() / 220, (int) r.getX() / 220)) {
-                    state.put(currentPlayer, (int) r.getY() / 220, (int) r.getX() / 220);
+                if (state.isEmptyGameField((int) r.getY() / 220, (int) r.getX() / 220)) {
+                    state.placeSymbol(currentPlayer, (int) r.getY() / 220, (int) r.getX() / 220);
                     if(currentPlayer.equals(state.getPlayer1Name())) {
 
                         Circle c = new Circle();
@@ -199,12 +188,12 @@ public class GameController {
      */
     private void increaseSteps(String player) {
         if (player.equals(state.getPlayer1Name())) {
-            state.setP1Steps(state.getP1Steps()+1);
-            player1Steps.setText(state.getP1Steps()+"");
+            state.setPlayer1Steps(state.getPlayer1Steps()+1);
+            player1Steps.setText(state.getPlayer1Steps()+"");
         }
         else {
-            state.setP2Steps(state.getP2Steps()+1);
-            player2Steps.setText(state.getP2Steps()+"");
+            state.setPlayer2Steps(state.getPlayer2Steps()+1);
+            player2Steps.setText(state.getPlayer2Steps()+"");
         }
 
     }
@@ -219,7 +208,7 @@ public class GameController {
 
     /**
      * Method which is getting called when someone clicks on button 'Main Menu'.
-     * @param actionEvent is a click by a user
+     * @param actionEvent is an event by a user
      * @throws IOException if the fxml file cannot be loaded
      */
     public void backToMainMenu(ActionEvent actionEvent) throws IOException {
@@ -240,11 +229,11 @@ public class GameController {
 
         if(state.getWinnerName().equals(state.getPlayer1Name())){
             loser = state.getPlayer2Name();
-            steps = state.getP1Steps();
+            steps = state.getPlayer1Steps();
         }
         else {
             loser = state.getPlayer1Name();
-            steps = state.getP2Steps();
+            steps = state.getPlayer2Steps();
         }
         return GameResult.builder().winnerName(state.getWinnerName())
                 .duration(Duration.between(startTime,Instant.now()))
@@ -255,7 +244,7 @@ public class GameController {
 
     /**
      * Method which getting called when someone clicks on button 'Leaderboard'.
-     * @param actionEvent is a click by a user
+     * @param actionEvent is an event by a user
      * @throws IOException if the fxml file cannot be loaded
      */
     public void leaderBoardButtonAction(ActionEvent actionEvent) throws IOException {
@@ -266,5 +255,18 @@ public class GameController {
         stage.show();
         log.info("Loading leaderboard scene..");
     }
+
+    /**
+     * Method for creating and initializing the stopwatch appearing on game screen.
+     */
+    private void createStopWatch() {
+        stopWatchTimeline = new Timeline(new KeyFrame(javafx.util.Duration.ZERO, e -> {
+            long millisElapsed = startTime.until(Instant.now(), ChronoUnit.MILLIS);
+            stopWatchLabel.setText(DurationFormatUtils.formatDuration(millisElapsed, "HH:mm:ss"));
+        }), new KeyFrame(javafx.util.Duration.seconds(1)));
+        stopWatchTimeline.setCycleCount(Animation.INDEFINITE);
+        stopWatchTimeline.play();
+    }
+
 
 }

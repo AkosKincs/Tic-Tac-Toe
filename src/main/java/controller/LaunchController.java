@@ -49,7 +49,7 @@ public class LaunchController {
     /**
      * Loads the game when of the users click on the given button.
      *
-     * @param actionEvent is a click by a user
+     * @param actionEvent is an event by a user
      * @throws IOException if the fxml file cannot be loaded
      */
     @FXML
