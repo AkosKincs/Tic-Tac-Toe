@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-public class TicTacToeModel {
+public class TicTacToeState {
 
     private String player1Name;
     private String player2Name;

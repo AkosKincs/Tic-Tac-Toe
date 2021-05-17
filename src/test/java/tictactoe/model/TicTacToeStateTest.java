@@ -5,267 +5,317 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TicTacToeModelTest {
+public class TicTacToeStateTest {
 
-    TicTacToeModel ticTacToeModel;
+    TicTacToeState ticTacToeState;
 
     @BeforeEach
     void setUp() {
-       ticTacToeModel = new TicTacToeModel();
-       ticTacToeModel.setPlayer1Name("Player1");
-       ticTacToeModel.setPlayer2Name("Player2");
+       ticTacToeState = new TicTacToeState();
+       ticTacToeState.setPlayer1Name("Player1");
+       ticTacToeState.setPlayer2Name("Player2");
     }
 
     @Test
     void testIsEmptyField(){
-        assertTrue(ticTacToeModel.isEmptyField(0,0));
-        assertTrue(ticTacToeModel.isEmptyField(1,1));
-        assertTrue(ticTacToeModel.isEmptyField(2,2));
-        ticTacToeModel.setGrid(new int[][]{
+        assertTrue(ticTacToeState.isEmptyField(0,0));
+        assertTrue(ticTacToeState.isEmptyField(1,1));
+        assertTrue(ticTacToeState.isEmptyField(2,2));
+        ticTacToeState.setGrid(new int[][]{
                 {1, 0, 0},
                 {0, 1, 0},
                 {0, 0, 0}
         });
-        assertFalse(ticTacToeModel.isEmptyField(0,0));
-        assertFalse(ticTacToeModel.isEmptyField(1,1));
+        assertFalse(ticTacToeState.isEmptyField(0,0));
+        assertFalse(ticTacToeState.isEmptyField(1,1));
     }
 
     @Test
     void testPut(){
-        ticTacToeModel.put("Player1", 0,0);
+        ticTacToeState.put("Player1", 0,0);
         assertArrayEquals(new int[][]{
                 {1, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0}
-        }, ticTacToeModel.getGrid());
+        }, ticTacToeState.getGrid());
 
-        ticTacToeModel.put("Player1", 0,1);
+        ticTacToeState.put("Player1", 0,1);
         assertArrayEquals(new int[][]{
                 {1, 1, 0},
                 {0, 0, 0},
                 {0, 0, 0}
-        }, ticTacToeModel.getGrid());
+        }, ticTacToeState.getGrid());
 
-        ticTacToeModel.put("Player1", 2,1);
+        ticTacToeState.put("Player1", 2,1);
         assertArrayEquals(new int[][]{
                 {1, 1, 0},
                 {0, 0, 0},
                 {0, 1, 0}
-        }, ticTacToeModel.getGrid());
+        }, ticTacToeState.getGrid());
 
-        ticTacToeModel.put("Player2", 1,2);
+        ticTacToeState.put("Player2", 1,2);
         assertArrayEquals(new int[][]{
                 {1, 1, 0},
                 {0, 0, 2},
                 {0, 1, 0}
-        }, ticTacToeModel.getGrid());
+        }, ticTacToeState.getGrid());
 
-        ticTacToeModel.put("Player2", 1,1);
+        ticTacToeState.put("Player2", 1,1);
         assertArrayEquals(new int[][]{
                 {1, 1, 0},
                 {0, 2, 2},
                 {0, 1, 0}
-        }, ticTacToeModel.getGrid());
+        }, ticTacToeState.getGrid());
     }
 
     @Test
     void testGameOverWithAWinner(){
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0}
         });
-        assertFalse(ticTacToeModel.isGameOverWithAWinner());
+        assertFalse(ticTacToeState.isGameOverWithAWinner());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 0, 0},
                 {0, 1, 0},
                 {0, 0, 1}
         });
-        assertTrue(ticTacToeModel.isGameOverWithAWinner());
+        assertTrue(ticTacToeState.isGameOverWithAWinner());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 2, 0},
                 {0, 2, 0},
                 {0, 2, 1}
         });
-        assertTrue(ticTacToeModel.isGameOverWithAWinner());
+        assertTrue(ticTacToeState.isGameOverWithAWinner());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 1, 0},
                 {0, 2, 0},
                 {0, 2, 1}
         });
-        assertFalse(ticTacToeModel.isGameOverWithAWinner());
+        assertFalse(ticTacToeState.isGameOverWithAWinner());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 1, 1},
                 {0, 2, 0},
                 {0, 2, 1}
         });
-        assertTrue(ticTacToeModel.isGameOverWithAWinner());
+        assertTrue(ticTacToeState.isGameOverWithAWinner());
     }
 
     @Test
     void testGridFull(){
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 1, 1},
                 {0, 2, 0},
                 {0, 2, 1}
         });
-        assertFalse(ticTacToeModel.gridFull());
+        assertFalse(ticTacToeState.gridFull());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 2, 1},
                 {2, 2, 1},
                 {0, 2, 1}
         });
-        assertFalse(ticTacToeModel.gridFull());
+        assertFalse(ticTacToeState.gridFull());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {2, 1, 1},
                 {2, 2, 1},
                 {2, 1, 1}
         });
-        assertTrue(ticTacToeModel.gridFull());
+        assertTrue(ticTacToeState.gridFull());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {2, 2, 2},
                 {2, 2, 2},
                 {2, 2, 2}
         });
-        assertTrue(ticTacToeModel.gridFull());
+        assertTrue(ticTacToeState.gridFull());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 2, 1},
                 {1, 2, 1},
                 {1, 2, 1}
         });
-        assertTrue(ticTacToeModel.gridFull());
+        assertTrue(ticTacToeState.gridFull());
 
     }
 
     @Test
     void testisGameOverWithATie(){
-        ticTacToeModel.setGrid(new int[][]{
-                {1, 2, 1},
-                {1, 2, 1},
-                {1, 2, 1}
+        ticTacToeState.setGrid(new int[][]{
+                {1, 0, 1},
+                {1, 0, 1},
+                {1, 0, 1}
         });
-        assertFalse(ticTacToeModel.isGameOverWithATie());
+        assertFalse(ticTacToeState.isGameOverWithATie());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
+                {2, 1, 0},
+                {2, 0, 1},
+                {2, 1, 0}
+        });
+        assertFalse(ticTacToeState.isGameOverWithATie());
+
+        ticTacToeState.setGrid(new int[][]{
                 {1, 0, 1},
                 {1, 1, 1},
                 {1, 0, 1}
         });
-        assertFalse(ticTacToeModel.isGameOverWithATie());
+        assertFalse(ticTacToeState.isGameOverWithATie());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 1, 2},
                 {2, 2, 1},
                 {1, 2, 1}
         });
-        assertTrue(ticTacToeModel.isGameOverWithATie());
+        assertTrue(ticTacToeState.isGameOverWithATie());
 
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {2, 2, 1},
                 {1, 1, 2},
                 {2, 1, 2}
         });
-        assertTrue(ticTacToeModel.isGameOverWithATie());
+        assertTrue(ticTacToeState.isGameOverWithATie());
 
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {2, 1, 2},
                 {2, 2, 1},
                 {1, 2, 1}
         });
-        assertTrue(ticTacToeModel.isGameOverWithATie());
+        assertTrue(ticTacToeState.isGameOverWithATie());
     }
 
     @Test
     void testplayer1WinCheck(){
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 1, 1},
                 {1, 2, 2},
                 {2, 1, 2}
         });
-        assertTrue(ticTacToeModel.player1WinCheck());
+        assertTrue(ticTacToeState.player1WinCheck());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 2, 1},
                 {2, 2, 1},
                 {2, 1, 1}
         });
-        assertTrue(ticTacToeModel.player1WinCheck());
+        assertTrue(ticTacToeState.player1WinCheck());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 2, 1},
                 {2, 1, 2},
                 {1, 1, 2}
         });
-        assertTrue(ticTacToeModel.player1WinCheck());
+        assertTrue(ticTacToeState.player1WinCheck());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
+                {2, 1, 1},
+                {1, 2, 2},
+                {1, 1, 1}
+        });
+        assertTrue(ticTacToeState.player1WinCheck());
+
+        ticTacToeState.setGrid(new int[][]{
+                {0, 1, 1},
+                {0, 1, 2},
+                {2, 1, 2}
+        });
+        assertTrue(ticTacToeState.player1WinCheck());
+
+        ticTacToeState.setGrid(new int[][]{
                 {1, 2, 2},
                 {2, 1, 2},
                 {1, 1, 2}
         });
-        assertFalse(ticTacToeModel.player1WinCheck());
+        assertFalse(ticTacToeState.player1WinCheck());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 2, 1},
                 {1, 1, 2},
                 {2, 2, 2}
         });
-        assertFalse(ticTacToeModel.player1WinCheck());
+        assertFalse(ticTacToeState.player1WinCheck());
     }
 
     @Test
     void testplayer2WinCheck(){
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 1, 2},
                 {2, 2, 1},
                 {2, 1, 2}
         });
-        assertTrue(ticTacToeModel.player2WinCheck());
+        assertTrue(ticTacToeState.player2WinCheck());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 2, 1},
                 {1, 2, 2},
                 {2, 2, 1}
         });
-        assertTrue(ticTacToeModel.player2WinCheck());
+        assertTrue(ticTacToeState.player2WinCheck());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {2, 2, 2},
                 {2, 1, 1},
                 {1, 1, 2}
         });
-        assertTrue(ticTacToeModel.player2WinCheck());
+        assertTrue(ticTacToeState.player2WinCheck());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {2, 2, 1},
                 {2, 1, 1},
                 {2, 1, 2}
         });
-        assertTrue(ticTacToeModel.player2WinCheck());
+        assertTrue(ticTacToeState.player2WinCheck());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
+                {0, 2, 1},
+                {2, 2, 2},
+                {2, 1, 2}
+        });
+        assertTrue(ticTacToeState.player2WinCheck());
+
+        ticTacToeState.setGrid(new int[][]{
+                {0, 2, 1},
+                {2, 0, 2},
+                {2, 2, 2}
+        });
+        assertTrue(ticTacToeState.player2WinCheck());
+
+        ticTacToeState.setGrid(new int[][]{
+                {1, 2, 2},
+                {1, 1, 2},
+                {2, 1, 2}
+        });
+        assertTrue(ticTacToeState.player2WinCheck());
+
+        ticTacToeState.setGrid(new int[][]{
+                {2, 0, 1},
+                {2, 2, 1},
+                {0, 2, 2}
+        });
+        assertTrue(ticTacToeState.player2WinCheck());
+
+
+        ticTacToeState.setGrid(new int[][]{
                 {1, 2, 1},
                 {2, 1, 1},
                 {2, 2, 1}
         });
-        assertFalse(ticTacToeModel.player2WinCheck());
+        assertFalse(ticTacToeState.player2WinCheck());
 
-        ticTacToeModel.setGrid(new int[][]{
+        ticTacToeState.setGrid(new int[][]{
                 {1, 2, 2},
                 {1, 1, 2},
                 {2, 2, 1}
         });
-        assertFalse(ticTacToeModel.player2WinCheck());
+        assertFalse(ticTacToeState.player2WinCheck());
     }
 
 }
