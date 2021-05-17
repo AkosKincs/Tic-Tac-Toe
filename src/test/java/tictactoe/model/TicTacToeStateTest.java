@@ -247,6 +247,13 @@ public class TicTacToeModelTest {
         assertTrue(ticTacToeModel.player2WinCheck());
 
         ticTacToeModel.setGrid(new int[][]{
+                {2, 2, 1},
+                {2, 1, 1},
+                {2, 1, 2}
+        });
+        assertTrue(ticTacToeModel.player2WinCheck());
+
+        ticTacToeModel.setGrid(new int[][]{
                 {1, 2, 1},
                 {2, 1, 1},
                 {2, 2, 1}

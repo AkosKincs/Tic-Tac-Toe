@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Class representing the model of the game.
+ * Class representing the state of the game.
  */
 
 @Data
