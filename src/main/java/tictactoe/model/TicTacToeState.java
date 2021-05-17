@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Class representing the state of the game.
  */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,48 +17,47 @@ public class TicTacToeState {
     private String player1Name;
     private String player2Name;
     private String winnerName;
+    private int player1Steps;
+    private int player2Steps;
     private boolean gameOver;
-    private int p1Steps;
-    private int p2Steps;
 
     /**
-     * The array representing the initial configuration of the game grid.
+     * The array representing the initial configuration of the game board.
      */
-    private int[][] grid = new int[][]{
+    private int[][] board = new int[][]{
             {0, 0, 0},
             {0, 0, 0},
             {0, 0, 0}
     };
 
     /**
-     * Method that checks whether the given pane of the grid is empty.
+     * Method that checks whether the given field of the game board is empty.
      * @param row is the row
      * @param col is the column
      * @return {@code true} if it's empty, {@code false} otherwise
      */
-    public boolean isEmptyField(int row, int col) {
-        if (grid[row][col] == 0) {
+    public boolean isEmptyGameField(int row, int col) {
+        if (board[row][col] == 0) {
             return true;
         }
         return false;
     }
 
     /**
-     * Method that makes movement possible on the grid.
+     * Method that makes movement possible on the board.
      *
      * @param playerName is the player who is ready to put a symbol of their own
-     * @param row is the row coordinate of the 3x3 game grid
-     * @param col is the column coordinate of the 3x3 game grid
+     * @param row is the row coordinate of the 3x3 game board
+     * @param col is the column coordinate of the 3x3 game board
      */
-    public void put(String playerName, int row, int col) {
-        if (isEmptyField(row, col)) {
+    public void placeSymbol(String playerName, int row, int col) {
+        if (isEmptyGameField(row, col)) {
             if(playerName.equals(player1Name)) {
-                grid[row][col] = 1;
-                log.info("{} clicked on grid with the following coordinates: {},{}",playerName, row+1, col+1);
+                board[row][col] = 1;
             } else {
-                grid[row][col] = 2;
-                log.info("{} clicked on grid with the following coordinates: {},{}",playerName, row+1, col+1);
+                board[row][col] = 2;
             }
+            log.info("{} clicked on board to the following coordinates: {},{}",playerName, row+1, col+1);
         }
     }
 
@@ -76,17 +74,17 @@ public class TicTacToeState {
     }
 
     /**
-     * Checks whether the game grid is full.
+     * Checks whether the game board has no empty space left.
      *
      * @return {@code true} if there is no empty pane, {@code false} otherwise
      */
-    public boolean gridFull()
+    public boolean boardFull()
     {
-        for (int row = 0; row < grid.length; row++)
+        for (int row = 0; row < board.length; row++)
         {
-            for (int col = 0; col < grid.length; col++)
+            for (int col = 0; col < board.length; col++)
             {
-                if (grid[row][col] == 0)
+                if (board[row][col] == 0)
                 {
                     return false;
                 }
@@ -112,7 +110,7 @@ public class TicTacToeState {
             return false;
         }
 
-        else if (gridFull() && !(player1WinCheck() || player2WinCheck())){
+        else if (boardFull() && !(player1WinCheck() || player2WinCheck())){
             gameOver = true;
             return true;
         }
@@ -126,23 +124,23 @@ public class TicTacToeState {
      */
     public boolean player1WinCheck() {
 
-        for (int row = 0; row < grid.length; row++) {
-            for (int col = 0; col < grid.length; col++) {
-                if (grid[0][0] == 1 && grid[0][1] == 1 && grid[0][2] == 1) {
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board.length; col++) {
+                if (board[0][0] == 1 && board[0][1] == 1 && board[0][2] == 1) {
                     return true;
-                } else if (grid[1][0] == 1 && grid[1][1] == 1 && grid[1][2] == 1) {
+                } else if (board[1][0] == 1 && board[1][1] == 1 && board[1][2] == 1) {
                     return true;
-                } else if (grid[2][0] == 1 && grid[2][1] == 1 && grid[2][2] == 1) {
+                } else if (board[2][0] == 1 && board[2][1] == 1 && board[2][2] == 1) {
                     return true;
-                } else if (grid[0][0] == 1 && grid[1][0] == 1 && grid[2][0] == 1) {
+                } else if (board[0][0] == 1 && board[1][0] == 1 && board[2][0] == 1) {
                     return true;
-                } else if (grid[0][1] == 1 && grid[1][1] == 1 && grid[2][1] == 1) {
+                } else if (board[0][1] == 1 && board[1][1] == 1 && board[2][1] == 1) {
                     return true;
-                } else if (grid[0][2] == 1 && grid[1][2] == 1 && grid[2][2] == 1) {
+                } else if (board[0][2] == 1 && board[1][2] == 1 && board[2][2] == 1) {
                     return true;
-                } else if (grid[0][0] == 1 && grid[1][1] == 1 && grid[2][2] == 1) {
+                } else if (board[0][0] == 1 && board[1][1] == 1 && board[2][2] == 1) {
                     return true;
-                } else if (grid[0][2] == 1 && grid[1][1] == 1 && grid[2][0] == 1) {
+                } else if (board[0][2] == 1 && board[1][1] == 1 && board[2][0] == 1) {
                     return true;
                 }
 
@@ -159,23 +157,23 @@ public class TicTacToeState {
      */
     public boolean player2WinCheck() {
 
-        for (int row = 0; row < grid.length; row++) {
-            for (int col = 0; col < grid.length; col++) {
-                if (grid[0][0] == 2 && grid[0][1] == 2 && grid[0][2] == 2) {
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board.length; col++) {
+                if (board[0][0] == 2 && board[0][1] == 2 && board[0][2] == 2) {
                     return true;
-                } else if (grid[1][0] == 2 && grid[1][1] == 2 && grid[1][2] == 2) {
+                } else if (board[1][0] == 2 && board[1][1] == 2 && board[1][2] == 2) {
                     return true;
-                } else if (grid[2][0] == 2 && grid[2][1] == 2 && grid[2][2] == 2) {
+                } else if (board[2][0] == 2 && board[2][1] == 2 && board[2][2] == 2) {
                     return true;
-                } else if (grid[0][0] == 2 && grid[1][0] == 2 && grid[2][0] == 2) {
+                } else if (board[0][0] == 2 && board[1][0] == 2 && board[2][0] == 2) {
                     return true;
-                } else if (grid[0][1] == 2 && grid[1][1] == 2 && grid[2][1] == 2) {
+                } else if (board[0][1] == 2 && board[1][1] == 2 && board[2][1] == 2) {
                     return true;
-                } else if (grid[0][2] == 2 && grid[1][2] == 2 && grid[2][2] == 2) {
+                } else if (board[0][2] == 2 && board[1][2] == 2 && board[2][2] == 2) {
                     return true;
-                } else if (grid[0][0] == 2 && grid[1][1] == 2 && grid[2][2] == 2) {
+                } else if (board[0][0] == 2 && board[1][1] == 2 && board[2][2] == 2) {
                     return true;
-                } else if (grid[0][2] == 2 && grid[1][1] == 2 && grid[2][0] == 2) {
+                } else if (board[0][2] == 2 && board[1][1] == 2 && board[2][0] == 2) {
                     return true;
                 }
 

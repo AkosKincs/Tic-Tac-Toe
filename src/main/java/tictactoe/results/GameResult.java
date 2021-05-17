@@ -13,7 +13,6 @@ import java.time.ZonedDateTime;
 /**
  * Class for representing the result of a game.
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,13 +36,11 @@ public class GameResult {
     @Column(nullable = false)
     private String loserName;
 
-
     /**
      * The number of steps made by the winner player.
      */
     @Column(nullable = false)
     private Integer stepsForWin;
-
 
     /**
      * The duration of the game.

@@ -8,7 +8,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
- * Class that controls the GUI.
+ * Class that controls the Graphical User Interface.
  */
 public class MyApplication extends Application {
 
