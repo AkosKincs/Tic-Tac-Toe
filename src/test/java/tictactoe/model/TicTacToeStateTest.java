@@ -18,87 +18,87 @@ public class TicTacToeStateTest {
 
     @Test
     void testIsEmptyField(){
-        assertTrue(ticTacToeState.isEmptyField(0,0));
-        assertTrue(ticTacToeState.isEmptyField(1,1));
-        assertTrue(ticTacToeState.isEmptyField(2,2));
-        ticTacToeState.setGrid(new int[][]{
+        assertTrue(ticTacToeState.isEmptyGameField(0,0));
+        assertTrue(ticTacToeState.isEmptyGameField(1,1));
+        assertTrue(ticTacToeState.isEmptyGameField(2,2));
+        ticTacToeState.setBoard(new int[][]{
                 {1, 0, 0},
                 {0, 1, 0},
                 {0, 0, 0}
         });
-        assertFalse(ticTacToeState.isEmptyField(0,0));
-        assertFalse(ticTacToeState.isEmptyField(1,1));
+        assertFalse(ticTacToeState.isEmptyGameField(0,0));
+        assertFalse(ticTacToeState.isEmptyGameField(1,1));
     }
 
     @Test
     void testPut(){
-        ticTacToeState.put("Player1", 0,0);
+        ticTacToeState.placeSymbol("Player1", 0,0);
         assertArrayEquals(new int[][]{
                 {1, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0}
-        }, ticTacToeState.getGrid());
+        }, ticTacToeState.getBoard());
 
-        ticTacToeState.put("Player1", 0,1);
+        ticTacToeState.placeSymbol("Player1", 0,1);
         assertArrayEquals(new int[][]{
                 {1, 1, 0},
                 {0, 0, 0},
                 {0, 0, 0}
-        }, ticTacToeState.getGrid());
+        }, ticTacToeState.getBoard());
 
-        ticTacToeState.put("Player1", 2,1);
+        ticTacToeState.placeSymbol("Player1", 2,1);
         assertArrayEquals(new int[][]{
                 {1, 1, 0},
                 {0, 0, 0},
                 {0, 1, 0}
-        }, ticTacToeState.getGrid());
+        }, ticTacToeState.getBoard());
 
-        ticTacToeState.put("Player2", 1,2);
+        ticTacToeState.placeSymbol("Player2", 1,2);
         assertArrayEquals(new int[][]{
                 {1, 1, 0},
                 {0, 0, 2},
                 {0, 1, 0}
-        }, ticTacToeState.getGrid());
+        }, ticTacToeState.getBoard());
 
-        ticTacToeState.put("Player2", 1,1);
+        ticTacToeState.placeSymbol("Player2", 1,1);
         assertArrayEquals(new int[][]{
                 {1, 1, 0},
                 {0, 2, 2},
                 {0, 1, 0}
-        }, ticTacToeState.getGrid());
+        }, ticTacToeState.getBoard());
     }
 
     @Test
     void testGameOverWithAWinner(){
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0}
         });
         assertFalse(ticTacToeState.isGameOverWithAWinner());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 0, 0},
                 {0, 1, 0},
                 {0, 0, 1}
         });
         assertTrue(ticTacToeState.isGameOverWithAWinner());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 2, 0},
                 {0, 2, 0},
                 {0, 2, 1}
         });
         assertTrue(ticTacToeState.isGameOverWithAWinner());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 1, 0},
                 {0, 2, 0},
                 {0, 2, 1}
         });
         assertFalse(ticTacToeState.isGameOverWithAWinner());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 1, 1},
                 {0, 2, 0},
                 {0, 2, 1}
@@ -108,67 +108,67 @@ public class TicTacToeStateTest {
 
     @Test
     void testGridFull(){
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 1, 1},
                 {0, 2, 0},
                 {0, 2, 1}
         });
-        assertFalse(ticTacToeState.gridFull());
+        assertFalse(ticTacToeState.boardFull());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 2, 1},
                 {2, 2, 1},
                 {0, 2, 1}
         });
-        assertFalse(ticTacToeState.gridFull());
+        assertFalse(ticTacToeState.boardFull());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {2, 1, 1},
                 {2, 2, 1},
                 {2, 1, 1}
         });
-        assertTrue(ticTacToeState.gridFull());
+        assertTrue(ticTacToeState.boardFull());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {2, 2, 2},
                 {2, 2, 2},
                 {2, 2, 2}
         });
-        assertTrue(ticTacToeState.gridFull());
+        assertTrue(ticTacToeState.boardFull());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 2, 1},
                 {1, 2, 1},
                 {1, 2, 1}
         });
-        assertTrue(ticTacToeState.gridFull());
+        assertTrue(ticTacToeState.boardFull());
 
     }
 
     @Test
     void testisGameOverWithATie(){
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 0, 1},
                 {1, 0, 1},
                 {1, 0, 1}
         });
         assertFalse(ticTacToeState.isGameOverWithATie());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {2, 1, 0},
                 {2, 0, 1},
                 {2, 1, 0}
         });
         assertFalse(ticTacToeState.isGameOverWithATie());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 0, 1},
                 {1, 1, 1},
                 {1, 0, 1}
         });
         assertFalse(ticTacToeState.isGameOverWithATie());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 1, 2},
                 {2, 2, 1},
                 {1, 2, 1}
@@ -176,7 +176,7 @@ public class TicTacToeStateTest {
         assertTrue(ticTacToeState.isGameOverWithATie());
 
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {2, 2, 1},
                 {1, 1, 2},
                 {2, 1, 2}
@@ -184,7 +184,7 @@ public class TicTacToeStateTest {
         assertTrue(ticTacToeState.isGameOverWithATie());
 
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {2, 1, 2},
                 {2, 2, 1},
                 {1, 2, 1}
@@ -194,49 +194,49 @@ public class TicTacToeStateTest {
 
     @Test
     void testplayer1WinCheck(){
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 1, 1},
                 {1, 2, 2},
                 {2, 1, 2}
         });
         assertTrue(ticTacToeState.player1WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 2, 1},
                 {2, 2, 1},
                 {2, 1, 1}
         });
         assertTrue(ticTacToeState.player1WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 2, 1},
                 {2, 1, 2},
                 {1, 1, 2}
         });
         assertTrue(ticTacToeState.player1WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {2, 1, 1},
                 {1, 2, 2},
                 {1, 1, 1}
         });
         assertTrue(ticTacToeState.player1WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {0, 1, 1},
                 {0, 1, 2},
                 {2, 1, 2}
         });
         assertTrue(ticTacToeState.player1WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 2, 2},
                 {2, 1, 2},
                 {1, 1, 2}
         });
         assertFalse(ticTacToeState.player1WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 2, 1},
                 {1, 1, 2},
                 {2, 2, 2}
@@ -246,56 +246,56 @@ public class TicTacToeStateTest {
 
     @Test
     void testplayer2WinCheck(){
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 1, 2},
                 {2, 2, 1},
                 {2, 1, 2}
         });
         assertTrue(ticTacToeState.player2WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 2, 1},
                 {1, 2, 2},
                 {2, 2, 1}
         });
         assertTrue(ticTacToeState.player2WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {2, 2, 2},
                 {2, 1, 1},
                 {1, 1, 2}
         });
         assertTrue(ticTacToeState.player2WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {2, 2, 1},
                 {2, 1, 1},
                 {2, 1, 2}
         });
         assertTrue(ticTacToeState.player2WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {0, 2, 1},
                 {2, 2, 2},
                 {2, 1, 2}
         });
         assertTrue(ticTacToeState.player2WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {0, 2, 1},
                 {2, 0, 2},
                 {2, 2, 2}
         });
         assertTrue(ticTacToeState.player2WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 2, 2},
                 {1, 1, 2},
                 {2, 1, 2}
         });
         assertTrue(ticTacToeState.player2WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {2, 0, 1},
                 {2, 2, 1},
                 {0, 2, 2}
@@ -303,14 +303,14 @@ public class TicTacToeStateTest {
         assertTrue(ticTacToeState.player2WinCheck());
 
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 2, 1},
                 {2, 1, 1},
                 {2, 2, 1}
         });
         assertFalse(ticTacToeState.player2WinCheck());
 
-        ticTacToeState.setGrid(new int[][]{
+        ticTacToeState.setBoard(new int[][]{
                 {1, 2, 2},
                 {1, 1, 2},
                 {2, 2, 1}
