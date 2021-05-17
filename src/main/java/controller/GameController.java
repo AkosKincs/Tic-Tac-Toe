@@ -108,7 +108,7 @@ public class GameController {
         for (int i = 100; i < 600; i += 210) {
             for (int j = 100; j < 600; j += 210) {
                 Rectangle r = new Rectangle(i, j, 200, 200);
-                r.setFill(Color.WHITE);
+                r.setFill(Color.DARKGRAY);
                 pane.getChildren().addAll(r);
                 r.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, r));
             }
