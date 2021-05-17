@@ -24,9 +24,9 @@
         TicTacToe is a simple 2D local multiplayer strategy board game.
         Tic-tac-toe (also known as "noughts and crosses", "XO" or "amőba" in Hungarian)  has been played for
         hundreds of years since it is believed that people even in the ancient Egypt already played the game.
-        The game board itself consists of a 3X3 grid in which the players are able to put their symbols (Xs and OS)
-        one by one in each of the rounds.
-        The winner of the game is who manages to put 3 of his/her symbols after each other either horizontally,
+        The game board itself consists of a 3X3 grid in which the players are able to put their symbols (in this case
+        rectangles and circles) one by one in each of the rounds.
+        The winner of the game is the player who manages to put 3 matching symbols after each other either horizontally,
         vertically or diagonally.
     </description>
 
@@ -210,10 +210,10 @@
                         </reports>
                     </reportSet>
                 </reportSets>
-<!--              <configuration>
+             <configuration>
                   <failOnError>false</failOnError>
                   <additionalJOptions>-Xdoclint:none</additionalJOptions>
-                </configuration>-->
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
