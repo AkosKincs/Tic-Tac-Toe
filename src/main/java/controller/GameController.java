@@ -15,12 +15,13 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import tictactoe.model.TicTacToeModel;
+import tictactoe.model.TicTacToeState;
 import tictactoe.results.GameResult;
 import tictactoe.results.GameResultDao;
 
@@ -59,7 +60,7 @@ public class GameController {
     private String p1NameString;
     private String p2NameString;
     private String currentPlayer;
-    private TicTacToeModel gameModel;
+    private TicTacToeState state;
     private boolean gameOver;
     private Instant startTime;
     private Timeline stopWatchTimeline;
@@ -94,9 +95,9 @@ public class GameController {
     public void initializeGame() {
         gameOver = false;
         infoLabel.setText("");
-        gameModel = new TicTacToeModel();
-        gameModel.setPlayer1Name(p1NameString);
-        gameModel.setPlayer2Name(p2NameString);
+        state = new TicTacToeState();
+        state.setPlayer1Name(p1NameString);
+        state.setPlayer2Name(p2NameString);
         currentPlayer = p1NameString;
         player1Steps.setText("0");
         player2Steps.setText("0");
@@ -131,38 +132,47 @@ public class GameController {
      * @param mouseEvent is a click by a user
      * @param r is a clickable pane
      */
-  private void mousePressed(MouseEvent mouseEvent, Rectangle r) {
+    private void mousePressed(MouseEvent mouseEvent, Rectangle r) {
         if (!gameOver) {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                    if (gameModel.isEmptyField((int) r.getY() / 180, (int) r.getX() / 180)) {
-                        gameModel.put(currentPlayer, (int) r.getY() / 180, (int) r.getX() / 180);
-                        if(currentPlayer.equals(gameModel.getPlayer1Name())) {
-                            r.setFill(Color.BLUE);
-                        } else {
-                            r.setFill(Color.RED);
-                        }
-                        increaseSteps(currentPlayer);
-                        switchCurrentPlayer();
+                if (state.isEmptyField((int) r.getY() / 220, (int) r.getX() / 220)) {
+                    state.put(currentPlayer, (int) r.getY() / 220, (int) r.getX() / 220);
+                    if(currentPlayer.equals(state.getPlayer1Name())) {
 
-                        if (gameModel.isGameOverWithAWinner()) {
+                        Circle c = new Circle();
+                        double radius = 75;
+                        int x = 200 / 2 + 3 * (0+(int)r.getX()/3);
+                        int y = 200 / 2 + 3 * (0+(int)r.getY()/3);
+                        c.setRadius(radius);
+                        c.setTranslateX(x);
+                        c.setTranslateY(y);
+                        c.setFill(Color.RED);
+                        pane.getChildren().addAll(c);
+
+                    } else {
+                        r.setFill(Color.BLUE);
+                    }
+                    increaseSteps(currentPlayer);
+                    switchCurrentPlayer();
+                        if (state.isGameOverWithAWinner()) {
                             stopWatchTimeline.stop();
                             gameOver = true;
                             switchCurrentPlayer();
                             infoLabel.setText("The winner is: "+currentPlayer+"!");
-                            gameModel.setWinnerName(currentPlayer);
+                            state.setWinnerName(currentPlayer);
                             gameResultDao = new GameResultDao();
                             gameResultDao.persist(createGameResult());
                             log.info("The winner of the game is {}.", currentPlayer);
                         }
 
-                        if(gameModel.isGameOverWithATie()){
+                        if(state.isGameOverWithATie()){
                             gameOver = true;
                             infoLabel.setText("It's a tie! We don't have a winner!");
                             log.info("No winner for this game.");
                         }
                     }
                     else{
-                        infoLabel.setText("Invalid step!");
+                        log.info("Invalid step!");
                     }
                 }
             }
@@ -172,11 +182,11 @@ public class GameController {
      * Method used for switching between players.
      */
     private void switchCurrentPlayer() {
-        if (this.currentPlayer.equals(gameModel.getPlayer1Name())) {
-            this.currentPlayer = gameModel.getPlayer2Name();
+        if (this.currentPlayer.equals(state.getPlayer1Name())) {
+            this.currentPlayer = state.getPlayer2Name();
         }
         else {
-            this.currentPlayer = gameModel.getPlayer1Name();
+            this.currentPlayer = state.getPlayer1Name();
         }
         log.info("Opponent's turn..");
 
@@ -188,13 +198,13 @@ public class GameController {
      * @param player is the player whose steps are getting increased
      */
     private void increaseSteps(String player) {
-        if (player.equals(gameModel.getPlayer1Name())) {
-            gameModel.setP1Steps(gameModel.getP1Steps()+1);
-            player1Steps.setText(gameModel.getP1Steps()+"");
+        if (player.equals(state.getPlayer1Name())) {
+            state.setP1Steps(state.getP1Steps()+1);
+            player1Steps.setText(state.getP1Steps()+"");
         }
         else {
-            gameModel.setP2Steps(gameModel.getP2Steps()+1);
-            player2Steps.setText(gameModel.getP2Steps()+"");
+            state.setP2Steps(state.getP2Steps()+1);
+            player2Steps.setText(state.getP2Steps()+"");
         }
 
     }
@@ -228,15 +238,15 @@ public class GameController {
         String loser = "";
         int steps;
 
-        if(gameModel.getWinnerName().equals(gameModel.getPlayer1Name())){
-            loser = gameModel.getPlayer2Name();
-            steps = gameModel.getP1Steps();
+        if(state.getWinnerName().equals(state.getPlayer1Name())){
+            loser = state.getPlayer2Name();
+            steps = state.getP1Steps();
         }
         else {
-            loser = gameModel.getPlayer1Name();
-            steps = gameModel.getP2Steps();
+            loser = state.getPlayer1Name();
+            steps = state.getP2Steps();
         }
-        return GameResult.builder().winnerName(gameModel.getWinnerName())
+        return GameResult.builder().winnerName(state.getWinnerName())
                 .duration(Duration.between(startTime,Instant.now()))
                 .loserName(loser)
                 .stepsForWin(steps)

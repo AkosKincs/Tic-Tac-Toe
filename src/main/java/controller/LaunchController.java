@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +32,19 @@ public class LaunchController {
     private Label errorLabel;
 
     @FXML
+    private ImageView logo;
+
+    @FXML
     private Button quitButton;
+
+
+    /**
+     * Loads and sets the game logo on start.
+     */
+    @FXML
+    private void initialize() {
+        logo.setImage(new Image(getClass().getResource("/pictures/tictactoe_logo.png").toExternalForm()));
+    }
 
     /**
      * Loads the game when of the users click on the given button.

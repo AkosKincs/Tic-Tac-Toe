@@ -101,7 +101,7 @@ public class LeaderBoardController {
         observableResult.addAll(highScoreList);
 
         leaderboardTable.setItems(observableResult);
-        log.info("Loading high scores..");
+        log.info("Loading scores..");
     }
 
     /**
