@@ -17,7 +17,7 @@ public class TicTacToeStateTest {
     }
 
     @Test
-    void testIsEmptyField(){
+    void testIsEmptyGameField(){
         assertTrue(ticTacToeState.isEmptyGameField(0,0));
         assertTrue(ticTacToeState.isEmptyGameField(1,1));
         assertTrue(ticTacToeState.isEmptyGameField(2,2));
@@ -31,7 +31,7 @@ public class TicTacToeStateTest {
     }
 
     @Test
-    void testPut(){
+    void testPlaceSymbol(){
         ticTacToeState.placeSymbol("Player1", 0,0);
         assertArrayEquals(new int[][]{
                 {1, 0, 0},
@@ -107,7 +107,7 @@ public class TicTacToeStateTest {
     }
 
     @Test
-    void testGridFull(){
+    void testBoardFull(){
         ticTacToeState.setBoard(new int[][]{
                 {1, 1, 1},
                 {0, 2, 0},
@@ -193,7 +193,7 @@ public class TicTacToeStateTest {
     }
 
     @Test
-    void testplayer1WinCheck(){
+    void testPlayer1WinCheck(){
         ticTacToeState.setBoard(new int[][]{
                 {1, 1, 1},
                 {1, 2, 2},
@@ -245,7 +245,7 @@ public class TicTacToeStateTest {
     }
 
     @Test
-    void testplayer2WinCheck(){
+    void testPlayer2WinCheck(){
         ticTacToeState.setBoard(new int[][]{
                 {1, 1, 2},
                 {2, 2, 1},
