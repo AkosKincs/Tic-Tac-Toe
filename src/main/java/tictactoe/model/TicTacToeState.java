@@ -14,12 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TicTacToeState {
 
-    private String player1Name;
-    private String player2Name;
+    private String firstPlayerName;
+    private String secondPlayerName;
     private String winnerName;
-    private int player1Steps;
-    private int player2Steps;
-    private boolean gameOver;
+    private int firstPlayerSteps;
+    private int secondPlayerSteps;
 
     /**
      * The array representing the initial configuration of the game board.
@@ -52,7 +51,7 @@ public class TicTacToeState {
      */
     public void placeSymbol(String playerName, int row, int col) {
         if (isEmptyGameField(row, col)) {
-            if(playerName.equals(player1Name)) {
+            if(playerName.equals(firstPlayerName)) {
                 board[row][col] = 1;
             } else {
                 board[row][col] = 2;
@@ -78,14 +77,10 @@ public class TicTacToeState {
      *
      * @return {@code true} if there is no empty pane, {@code false} otherwise
      */
-    public boolean boardFull()
-    {
-        for (int row = 0; row < board.length; row++)
-        {
-            for (int col = 0; col < board.length; col++)
-            {
-                if (board[row][col] == 0)
-                {
+    public boolean boardFull() {
+        for (int row = 0; row < board.length; row++){
+            for (int col = 0; col < board.length; col++) {
+                if (board[row][col] == 0) {
                     return false;
                 }
             }
@@ -101,17 +96,14 @@ public class TicTacToeState {
     public boolean isGameOverWithATie(){
 
         if(player1WinCheck()){
-            gameOver = true;
             return false;
         }
 
         else if(player2WinCheck()){
-            gameOver = true;
             return false;
         }
 
         else if (boardFull() && !(player1WinCheck() || player2WinCheck())){
-            gameOver = true;
             return true;
         }
         return false;

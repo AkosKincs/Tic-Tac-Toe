@@ -97,8 +97,8 @@ public class GameController {
         gameOver = false;
         infoLabel.setText("");
         state = new TicTacToeState();
-        state.setPlayer1Name(p1NameString);
-        state.setPlayer2Name(p2NameString);
+        state.setFirstPlayerName(p1NameString);
+        state.setSecondPlayerName(p2NameString);
         currentPlayer = p1NameString;
         player1Steps.setText("0");
         player2Steps.setText("0");
@@ -124,9 +124,9 @@ public class GameController {
     private void mousePressed(MouseEvent mouseEvent, Rectangle r) {
         if (!gameOver) {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                if (state.isEmptyGameField((int) r.getY() / 220, (int) r.getX() / 220)) {
-                    state.placeSymbol(currentPlayer, (int) r.getY() / 220, (int) r.getX() / 220);
-                    if(currentPlayer.equals(state.getPlayer1Name())) {
+                if (state.isEmptyGameField((int) r.getY() / 200, (int) r.getX() / 200)) {
+                    state.placeSymbol(currentPlayer, (int) r.getY() / 200, (int) r.getX() / 200);
+                    if(currentPlayer.equals(state.getFirstPlayerName())) {
 
                         Circle c = new Circle();
                         double radius = 75;
@@ -171,11 +171,11 @@ public class GameController {
      * Method used for switching between players.
      */
     private void switchCurrentPlayer() {
-        if (this.currentPlayer.equals(state.getPlayer1Name())) {
-            this.currentPlayer = state.getPlayer2Name();
+        if (this.currentPlayer.equals(state.getFirstPlayerName())) {
+            this.currentPlayer = state.getSecondPlayerName();
         }
         else {
-            this.currentPlayer = state.getPlayer1Name();
+            this.currentPlayer = state.getFirstPlayerName();
         }
         log.info("Opponent's turn..");
 
@@ -187,13 +187,13 @@ public class GameController {
      * @param player is the player whose steps are getting increased
      */
     private void increaseSteps(String player) {
-        if (player.equals(state.getPlayer1Name())) {
-            state.setPlayer1Steps(state.getPlayer1Steps()+1);
-            player1Steps.setText(state.getPlayer1Steps()+"");
+        if (player.equals(state.getFirstPlayerName())) {
+            state.setFirstPlayerSteps(state.getFirstPlayerSteps()+1);
+            player1Steps.setText(state.getFirstPlayerSteps()+"");
         }
         else {
-            state.setPlayer2Steps(state.getPlayer2Steps()+1);
-            player2Steps.setText(state.getPlayer2Steps()+"");
+            state.setSecondPlayerSteps(state.getSecondPlayerSteps()+1);
+            player2Steps.setText(state.getSecondPlayerSteps()+"");
         }
 
     }
@@ -227,13 +227,13 @@ public class GameController {
         String loser = "";
         int steps;
 
-        if(state.getWinnerName().equals(state.getPlayer1Name())){
-            loser = state.getPlayer2Name();
-            steps = state.getPlayer1Steps();
+        if(state.getWinnerName().equals(state.getFirstPlayerName())){
+            loser = state.getSecondPlayerName();
+            steps = state.getFirstPlayerSteps();
         }
         else {
-            loser = state.getPlayer1Name();
-            steps = state.getPlayer2Steps();
+            loser = state.getFirstPlayerName();
+            steps = state.getSecondPlayerSteps();
         }
         return GameResult.builder().winnerName(state.getWinnerName())
                 .duration(Duration.between(startTime,Instant.now()))

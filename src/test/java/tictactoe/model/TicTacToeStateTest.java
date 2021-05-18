@@ -12,8 +12,8 @@ public class TicTacToeStateTest {
     @BeforeEach
     void setUp() {
        ticTacToeState = new TicTacToeState();
-       ticTacToeState.setPlayer1Name("Player1");
-       ticTacToeState.setPlayer2Name("Player2");
+       ticTacToeState.setFirstPlayerName("Player1");
+       ticTacToeState.setSecondPlayerName("Player2");
     }
 
     @Test
