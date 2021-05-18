@@ -17,13 +17,10 @@ who manages to put 3 matching symbols after each other either horizontally, vert
 
 ## Commands for
 
-### Compiling and running the project:
-    mvn compile exec:java
-
-### Creating executable .jar file:
+### Creating executable .jar package:
     mvn package
 
-### Running the created package:
+### Running the generated .jar package:
     java -jar TicTacToe-1.0.jar
 
 ### Generating site:
